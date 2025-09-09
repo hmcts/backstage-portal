@@ -1,0 +1,78 @@
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+name: Publish
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Beginning of yarn setup, keep in sync between all workflows, see ci.yml
+      - name: use node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://registry.npmjs.org/ # Needed for auth
+
+      - name: yarn install
+        uses: backstage/actions/yarn-install@v0.5.5
+        with:
+          cache-prefix: ${{ runner.os }}-v${{ matrix.node-version }}
+      # End of yarn setup
+      - name: setup dummy credentials file
+        run: touch github-app-backstage-hmcts-credentials.yaml
+
+      - name: type checking and declarations
+        run: yarn tsc --incremental false
+
+      - name: build
+        run: yarn build
+
+      - name: Generate build ID for PR
+        if: startsWith(github.ref, 'refs/pull')
+        run: |
+          pr_ref="${GITHUB_REF_NAME%%/*}"
+          sha=${GITHUB_SHA::8}
+          ts=$(date +%s)
+          echo "CONTAINER_ID=${pr_ref}-${sha}-${ts}" >> $GITHUB_ENV
+
+      - name: Generate build ID for master
+        if: github.ref == 'refs/heads/master'
+        run: |
+          sha=${GITHUB_SHA::8}
+          ts=$(date +%s)
+          echo "CONTAINER_ID=${sha}-${ts}" >> $GITHUB_ENV
+
+      - name: remove dummy credentials file
+        run: rm -f github-app-backstage-hmcts-credentials.yaml
+
+      - name: 'Build and push image'
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - run: |
+          yarn workspace backend build-image
+          docker tag backstage:latest ${{ secrets.REGISTRY_LOGIN_SERVER }}/backstage/backend:pr-$CONTAINER_ID
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/backstage/backend:pr-$CONTAINER_ID
+        if: startsWith(github.ref, 'refs/pull')
+      - run: |
+          yarn workspace backend build-image
+          docker tag backstage:latest ${{ secrets.REGISTRY_LOGIN_SERVER }}/backstage/backend:prod-$CONTAINER_ID
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/backstage/backend:prod-$CONTAINER_ID
+        if: github.ref == 'refs/heads/master'
+
+

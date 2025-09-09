@@ -1,9 +1,9 @@
 app:
-  title: Scaffolded Backstage App
+  title: HMCTS Backstage App
   baseUrl: http://localhost:3000
 
 organization:
-  name: My Company
+  name: HMCTS
 
 backend:
   # Used for enabling authentication, secret is shared by all backend plugins
@@ -64,14 +64,33 @@ techdocs:
 
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
+  environment: development
   providers:
     # See https://backstage.io/docs/auth/guest/provider
     guest: {}
+    github:
+      development:
+        clientId: ${AUTH_GITHUB_CLIENT_ID}
+        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+        signIn:
+          resolvers:
+            # Matches the GitHub username with the Backstage user entity name.
+            # See https://backstage.io/docs/auth/github/provider#resolvers for more resolvers.
+            - resolver: usernameMatchingUserEntityName
 
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
 
 catalog:
+  providers:
+    githubOrg:
+      id: production
+      githubUrl: https://github.com
+      orgs: [ 'hmcts' ]
+      schedule:
+        initialDelay: { seconds: 30 }
+        frequency: { hours: 1 }
+        timeout: { minutes: 50 }
   import:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
