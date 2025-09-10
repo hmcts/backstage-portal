@@ -37,8 +37,19 @@ import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { NotificationsPage } from '@backstage/plugin-notifications';
 import { SignalsDisplay } from '@backstage/plugin-signals';
-import { githubAuthApiRef } from '@backstage/core-plugin-api';
+import { microsoftAuthApiRef } from '@backstage/core-plugin-api';
 
+const microsoftAuthProvider: SignInProviderConfig = {
+    id: 'microsoft-auth-provider',
+    title: 'Microsoft',
+    message: 'Sign in using Microsoft',
+    apiRef: microsoftAuthApiRef,
+};
+
+const providers = [
+//   'guest',
+  microsoftAuthProvider
+]
 
 const app = createApp({
   apis,
@@ -64,12 +75,7 @@ const app = createApp({
       <SignInPage
         {...props}
         auto
-        provider={{
-          id: 'github-auth-provider',
-          title: 'GitHub',
-          message: 'Sign in using GitHub',
-          apiRef: githubAuthApiRef,
-        }}
+        providers={providers}
       />
     ),
   },
