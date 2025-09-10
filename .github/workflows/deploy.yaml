@@ -66,13 +66,13 @@ jobs:
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - run: |
           yarn workspace backend build-image
-          docker tag backstage:latest ${{ secrets.REGISTRY_LOGIN_SERVER }}/backstage/backend:pr-$CONTAINER_ID
-          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/backstage/backend:pr-$CONTAINER_ID
+          docker tag backstage:latest ${{ secrets.REGISTRY_LOGIN_SERVER }}/backstage-portal/backend:pr-$CONTAINER_ID
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/backstage-portal/backend:pr-$CONTAINER_ID
         if: startsWith(github.ref, 'refs/pull')
       - run: |
           yarn workspace backend build-image
-          docker tag backstage:latest ${{ secrets.REGISTRY_LOGIN_SERVER }}/backstage/backend:prod-$CONTAINER_ID
-          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/backstage/backend:prod-$CONTAINER_ID
+          docker tag backstage:latest ${{ secrets.REGISTRY_LOGIN_SERVER }}/backstage-portal/backend:prod-$CONTAINER_ID
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/backstage-portal/backend:prod-$CONTAINER_ID
         if: github.ref == 'refs/heads/master'
 
 
