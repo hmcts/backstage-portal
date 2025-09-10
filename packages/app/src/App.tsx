@@ -47,7 +47,7 @@ const microsoftAuthProvider: SignInProviderConfig = {
 };
 
 const providers = [
-//   'guest',
+  'guest',
   microsoftAuthProvider
 ]
 

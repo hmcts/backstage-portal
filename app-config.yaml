@@ -28,8 +28,12 @@ backend:
   # This is for local development only, it is not recommended to use this in production
   # The production database configuration is stored in app-config.production.yaml
   database:
-    client: better-sqlite3
-    connection: ':memory:'
+    client: pg
+    connection:
+      host: ${POSTGRES_HOST}
+      port: ${POSTGRES_PORT}
+      user: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
 
 integrations:
@@ -67,13 +71,13 @@ auth:
   environment: development
   providers:
     # See https://backstage.io/docs/auth/guest/provider
-    guest: {}
-#    microsoft:
-#      development:
-#        clientId: ${AUTH_MICROSOFT_CLIENT_ID}
-#        clientSecret: ${AUTH_MICROSOFT_CLIENT_SECRET}
-#        tenantId: ${AUTH_MICROSOFT_TENANT_ID}
-#        domainHint: ${AUTH_MICROSOFT_TENANT_ID}
+#    guest: {}
+    microsoft:
+      development:
+        clientId: ${AUTH_MICROSOFT_CLIENT_ID}
+        clientSecret: ${AUTH_MICROSOFT_CLIENT_SECRET}
+        tenantId: ${AUTH_MICROSOFT_TENANT_ID}
+        domainHint: ${AUTH_MICROSOFT_TENANT_ID}
 
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
@@ -90,6 +94,7 @@ catalog:
             securityEnabled eq false
             and mailEnabled eq true
             and groupTypes/any(c:c+eq+'Unified')
+#            select: ['id', 'displayName', 'description']
         schedule:
           frequency: PT1H
           timeout: PT50M
@@ -118,10 +123,10 @@ catalog:
         - allow: [Template]
 
     # Local example organizational data
-    - type: file
-      target: ../../examples/org.yaml
-      rules:
-        - allow: [User, Group]
+#    - type: file
+#      target: ../../examples/org.yaml
+#      rules:
+#        - allow: [User, Group]
 
     ## Uncomment these lines to add more example data
     # - type: url
