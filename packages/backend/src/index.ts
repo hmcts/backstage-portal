@@ -28,7 +28,7 @@ const customAuth = createBackendModule({
         providers.registerProvider({
           // This ID must match the actual provider config, e.g. addressing
           // auth.providers.github means that this must be "github".
-          providerId: 'microsfoft',
+          providerId: 'microsoft',
           // Use createProxyAuthProviderFactory instead if it's one of the proxy
           // based providers rather than an OAuth based one
           factory: createOAuthProviderFactory({
