@@ -13,6 +13,7 @@ import {
   authProvidersExtensionPoint,
   createOAuthProviderFactory,
 } from '@backstage/plugin-auth-node';
+import { stringifyEntityRef, DEFAULT_NAMESPACE } from '@backstage/catalog-model';
 
 const backend = createBackend();
 
@@ -30,7 +31,6 @@ backend.add(
 backend.add(import('@backstage/plugin-techdocs-backend'));
 
 // auth plugin
-backend.add(import('@backstage/plugin-auth-backend'));
 backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
 backend.add(import('@backstage/plugin-auth-backend-module-microsoft-provider'));
 // See https://backstage.io/docs/backend-system/building-backends/migrating#the-auth-plugin
@@ -91,29 +91,34 @@ const customAuth = createBackendModule({
           // based providers rather than an OAuth based one
           factory: createOAuthProviderFactory({
             authenticator: microsoftAuthenticator,
-           async signInResolver(info, ctx) {
-             const { profile: { email } } = info;
+           async signInResolver({ profile }, ctx) {
+             if (!profile.email) {
+               throw new Error(
+                 'Login failed, user profile does not contain an email',
+               );
+             }
+             // Split the email into the local part and the domain.
+             const [localPart, domain] = profile.email.split('@');
 
-             // Profiles are not always guaranteed to have an email address.
-             // You can also find more provider-specific information in `info.result`.
-             // It typically contains a `fullProfile` object as well as ID and/or access
-             // tokens that you can use for additional lookups.
-             if (!email) {
-               throw new Error('User profile contained no email');
+             // Next we verify the email domain. It is recommended to include this
+            //  kind of check if you don't look up the user in an external service.
+             if (domain !== 'hmcts.net') {
+               throw new Error(
+                 `Login failed, '${profile.email}' does not belong to the expected domain`,
+               );
              }
 
-             // This example resolver simply uses the local part of the email as the name.
-             const [name] = email.split('@');
-
-             // This helper function handles sign-in by looking up a user in the catalog.
-             // The lookup can be done either by reference, annotations, or custom filters.
-             //
-             // The helper also issues a token for the user, using the standard group
-             // membership logic to determine the ownership references of the user.
-             //
-             // There are a number of other methods on the ctx, feel free to explore them!
-             return ctx.signInWithCatalogUser({
-               entityRef: { name },
+             // By using `stringifyEntityRef` we ensure that the reference is formatted correctly
+             const userEntity = stringifyEntityRef({
+               kind: 'User',
+               name: localPart,
+               namespace: DEFAULT_NAMESPACE,
+             });
+             return ctx.issueToken({
+               claims: {
+                 sub: userEntity,
+                 ent: [userEntity],
+               },
              });
            }
           }),
