@@ -13,6 +13,7 @@ import {
   authProvidersExtensionPoint,
   createOAuthProviderFactory,
 } from '@backstage/plugin-auth-node';
+import { stringifyEntityRef, DEFAULT_NAMESPACE } from '@backstage/catalog-model';
 
 const backend = createBackend();
 
@@ -100,12 +101,12 @@ const customAuth = createBackendModule({
              const [localPart, domain] = profile.email.split('@');
 
              // Next we verify the email domain. It is recommended to include this
-             // kind of check if you don't look up the user in an external service.
-//              if (domain !== 'acme.org') {
-//                throw new Error(
-//                  `Login failed, '${profile.email}' does not belong to the expected domain`,
-//                );
-//              }
+            //  kind of check if you don't look up the user in an external service.
+             if (domain !== 'hmcts.net') {
+               throw new Error(
+                 `Login failed, '${profile.email}' does not belong to the expected domain`,
+               );
+             }
 
              // By using `stringifyEntityRef` we ensure that the reference is formatted correctly
              const userEntity = stringifyEntityRef({
