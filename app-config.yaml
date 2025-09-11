@@ -86,26 +86,51 @@ catalog:
   providers:
     microsoftGraphOrg:
       default:
+        target: https://graph.microsoft.com/v1.0
+        # If you don't know you tenantId, you can use Microsoft Graph Explorer
+        # to query it
         tenantId: ${AUTH_MICROSOFT_TENANT_ID}
+        # Optional ClientId and ClientSecret if you don't want to use `DefaultAzureCredential`
+        # for authentication
+        # Client Id and Secret can be created under Certificates & secrets in
+        # the App registration in the Microsoft Azure Portal.
+        clientId: ${AUTH_MICROSOFT_CLIENT_ID}
+        clientSecret: ${AUTH_MICROSOFT_CLIENT_SECRET}
+        # Optional mode for querying which defaults to "basic".
+        # By default, the Microsoft Graph API only provides the basic feature set
+        # for querying. Certain features are limited to advanced querying capabilities.
+        # (See https://docs.microsoft.com/en-us/graph/aad-advanced-queries)
+        queryMode: basic # basic | advanced
+        # Optional configuration block
         user:
-          filter: accountEnabled eq true and userType eq 'member'
+          # Optional parameter to include the expanded resource or collection referenced
+          # by a single relationship (navigation property) in your results.
+          # Only one relationship can be expanded in a single request.
+          # See https://docs.microsoft.com/en-us/graph/query-parameters#expand-parameter
+          # Can be combined with userGroupMember[...] instead of userFilter.
+          expand: manager
+          # Optional filter for user, see Microsoft Graph API for the syntax
+          # See https://docs.microsoft.com/en-us/graph/api/resources/user?view=graph-rest-1.0#properties
+          # and for the syntax https://docs.microsoft.com/en-us/graph/query-parameters#filter-parameter
+          # This and userGroupMemberFilter are mutually exclusive, only one can be specified
+          filter: accountEnabled eq true
         group:
-          filter: >
-            securityEnabled eq false
-            and mailEnabled eq true
-            and groupTypes/any(c:c+eq+'Unified')
-#            select: ['id', 'displayName', 'description']
+          # Optional parameter to include the expanded resource or collection referenced
+          # by a single relationship (navigation property) in your results.
+          # Only one relationship can be expanded in a single request.
+          # See https://docs.microsoft.com/en-us/graph/query-parameters#expand-parameter
+          # Can be combined with userGroupMember[...] instead of userFilter.
+          expand: member
+          # Optional filter for group, see Microsoft Graph API for the syntax
+          # See https://docs.microsoft.com/en-us/graph/api/resources/group?view=graph-rest-1.0#properties
+          filter: securityEnabled eq true
+          # Optional select for groups, this will allow you work with schemaExtensions
+          # in order to add extra information to your groups that can be used on you custom groupTransformers
+          # See  https://docs.microsoft.com/en-us/graph/api/resources/schemaextension?view=graph-rest-1.0
+          select: [ 'id', 'displayName', 'description' ]
         schedule:
           frequency: PT1H
           timeout: PT50M
-    githubOrg:
-      id: production
-      githubUrl: https://github.com
-      orgs: [ 'hmcts' ]
-      schedule:
-        initialDelay: { seconds: 30 }
-        frequency: { hours: 1 }
-        timeout: { minutes: 50 }
   import:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
