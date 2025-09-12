@@ -78,16 +78,16 @@ auth:
         domainHint: ${AUTH_MICROSOFT_TENANT_ID}
         signIn:
           resolvers:
-            - resolver: microsoftEmailMatchingUserEntityName
             - resolver: emailMatchingUserEntityProfileEmail
+            - resolver: emailLocalPartMatchingUserEntityName
 ```
 
 ### Sign-in Resolvers
 
 The configuration uses two resolvers to match authenticated users to catalog entities:
 
-1. **microsoftEmailMatchingUserEntityName**: Matches the user's email address to a User entity's `metadata.name` field
-2. **emailMatchingUserEntityProfileEmail**: Matches the user's email address to a User entity's `spec.profile.email` field
+1. **emailMatchingUserEntityProfileEmail**: Matches the user's email address to a User entity's `spec.profile.email` field
+2. **emailLocalPartMatchingUserEntityName**: Matches the local part of the email (before @) to a User entity's `metadata.name` field
 
 ### Microsoft Graph Catalog Provider
 
