@@ -80,9 +80,7 @@ auth:
         domainHint: ${AUTH_MICROSOFT_TENANT_ID}
         signIn:
           resolvers:
-            # Maps Microsoft authentication result to a user entity in the catalog
             - resolver: microsoftEmailMatchingUserEntityName
-            - resolver: microsoftEmailLocalPartMatchingUserEntityName
             - resolver: emailMatchingUserEntityProfileEmail
 
 scaffolder:
