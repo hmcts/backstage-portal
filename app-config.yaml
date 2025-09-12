@@ -81,6 +81,7 @@ auth:
         signIn:
           resolvers:
             - resolver: emailMatchingUserEntityProfileEmail
+            - resolver: emailLocalPartMatchingUserEntityName
 
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
@@ -103,7 +104,7 @@ catalog:
         # By default, the Microsoft Graph API only provides the basic feature set
         # for querying. Certain features are limited to advanced querying capabilities.
         # (See https://docs.microsoft.com/en-us/graph/aad-advanced-queries)
-        queryMode: basic # basic | advanced
+        queryMode: advanced
         # Optional configuration block
         user:
           # Optional parameter to include the expanded resource or collection referenced
@@ -111,26 +112,13 @@ catalog:
           # Only one relationship can be expanded in a single request.
           # See https://docs.microsoft.com/en-us/graph/query-parameters#expand-parameter
           # Can be combined with userGroupMember[...] instead of userFilter.
-          expand: manager
+#          expand: manager
           # Optional filter for user, see Microsoft Graph API for the syntax
           # See https://docs.microsoft.com/en-us/graph/api/resources/user?view=graph-rest-1.0#properties
           # and for the syntax https://docs.microsoft.com/en-us/graph/query-parameters#filter-parameter
           # This and userGroupMemberFilter are mutually exclusive, only one can be specified
-          filter: accountEnabled eq true
-        group:
-          # Optional parameter to include the expanded resource or collection referenced
-          # by a single relationship (navigation property) in your results.
-          # Only one relationship can be expanded in a single request.
-          # See https://docs.microsoft.com/en-us/graph/query-parameters#expand-parameter
-          # Can be combined with userGroupMember[...] instead of userFilter.
-          expand: member
-          # Optional filter for group, see Microsoft Graph API for the syntax
-          # See https://docs.microsoft.com/en-us/graph/api/resources/group?view=graph-rest-1.0#properties
-          filter: securityEnabled eq true
-          # Optional select for groups, this will allow you work with schemaExtensions
-          # in order to add extra information to your groups that can be used on you custom groupTransformers
-          # See  https://docs.microsoft.com/en-us/graph/api/resources/schemaextension?view=graph-rest-1.0
-          select: [ 'id', 'displayName', 'description' ]
+          filter: displayName eq '**User***'
+          select: [ 'id', 'displayName', 'mail' ]
         schedule:
           frequency: PT1H
           timeout: PT50M
@@ -140,21 +128,6 @@ catalog:
   rules:
     - allow: [Component, System, API, Resource, Location]
   locations:
-    # Local example data, file locations are relative to the backend process, typically `packages/backend`
-    - type: file
-      target: ../../examples/entities.yaml
-
-    # Local example template
-    - type: file
-      target: ../../examples/template/template.yaml
-      rules:
-        - allow: [Template]
-
-    # Local example organizational data
-#    - type: file
-#      target: ../../examples/org.yaml
-#      rules:
-#        - allow: [User, Group]
 
     ## Uncomment these lines to add more example data
     # - type: url
