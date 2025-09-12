@@ -119,20 +119,6 @@ catalog:
           # This and userGroupMemberFilter are mutually exclusive, only one can be specified
           filter: displayName eq '**User***'
           select: [ 'id', 'displayName', 'mail' ]
-        group:
-          # Optional parameter to include the expanded resource or collection referenced
-          # by a single relationship (navigation property) in your results.
-          # Only one relationship can be expanded in a single request.
-          # See https://docs.microsoft.com/en-us/graph/query-parameters#expand-parameter
-          # Can be combined with userGroupMember[...] instead of userFilter.
-          expand: member
-          # Optional filter for group, see Microsoft Graph API for the syntax
-          # See https://docs.microsoft.com/en-us/graph/api/resources/group?view=graph-rest-1.0#properties
-          filter: securityEnabled eq true
-          # Optional select for groups, this will allow you work with schemaExtensions
-          # in order to add extra information to your groups that can be used on you custom groupTransformers
-          # See  https://docs.microsoft.com/en-us/graph/api/resources/schemaextension?view=graph-rest-1.0
-          select: [ 'id', 'displayName', 'description' ]
         schedule:
           frequency: PT1H
           timeout: PT50M
