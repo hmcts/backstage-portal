@@ -11,16 +11,15 @@ This document explains how to configure Microsoft authentication for the HMCTS B
 3. Fill in the details:
    - **Name**: `HMCTS Backstage Portal`
    - **Supported account types**: Accounts in this organizational directory only (Single tenant)
-   - **Redirect URI**: Web → `http://localhost:7007/api/auth/microsoft/handler/frame` (for development)
+   - **Redirect URI**: Web → `http://localhost:7007/api/auth/microsoft/handler/frame`
 
 ### 2. Configure Redirect URIs
 
 After creating the app registration:
 
 1. Go to Authentication → Redirect URIs
-2. Add redirect URIs for each environment:
+2. Add the development redirect URI:
    - **Development**: `http://localhost:7007/api/auth/microsoft/handler/frame`
-   - **Production**: `https://your-production-domain.com/api/auth/microsoft/handler/frame`
 
 ### 3. Generate Client Secret
 
@@ -52,7 +51,7 @@ From your app registration, collect these values for environment variables:
 
 ## Environment Configuration
 
-Set these environment variables:
+Set these environment variables for development:
 
 ```bash
 # Required for Microsoft authentication
@@ -63,7 +62,7 @@ AUTH_MICROSOFT_TENANT_ID=your-tenant-id
 
 ## Current Backstage Configuration
 
-The Backstage configuration includes:
+The Backstage development configuration includes:
 
 ### Authentication Provider
 
