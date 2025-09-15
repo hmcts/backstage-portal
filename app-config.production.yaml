@@ -58,7 +58,7 @@ catalog:
           topic:
             include: [ 'backstage', 'jenkins-cft-a-c', 'jenkins-cft-d-i', 'jenkins-cft-j-z', 'jenkins-sds' ]
         schedule:
-          frequency: PT30M
+          frequency: PT3M
           timeout: PT50M
     microsoftGraphOrg:
       production:
