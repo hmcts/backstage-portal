@@ -1,23 +1,32 @@
 app:
   title: HMCTS Backstage App
-  # Should be the same as backend.baseUrl when using the `app-backend` plugin.
   baseUrl: http://localhost:3000
 
 organization:
   name: HMCTS
 
 backend:
-  # Note that the baseUrl should be the URL that the browser and other clients
-  # should use when communicating with the backend, i.e. it needs to be
-  # reachable not just from within the backend host, but from all of your
-  # callers. When its value is "http://localhost:7007", it's strictly private
-  # and can't be reached by others.
+  # Used for enabling authentication, secret is shared by all backend plugins
+  # See https://backstage.io/docs/auth/service-to-service-auth for
+  # information on the format
+  # auth:
+  #   keys:
+  #     - secret: ${BACKEND_SECRET}
   baseUrl: http://localhost:7007
-  # The listener can also be expressed as a single <host>:<port> string. In this case we bind to
-  # all interfaces, the most permissive setting. The right value depends on your specific deployment.
-  listen: ':7007'
-
-  # config options: https://node-postgres.com/apis/client
+  listen:
+    port: 7007
+    # Uncomment the following host directive to bind to specific interfaces
+    # host: 127.0.0.1
+  csp:
+    connect-src: ["'self'", 'http:', 'https:']
+    # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
+    # Default Helmet Content-Security-Policy values can be removed by setting the key to false
+  cors:
+    origin: http://localhost:3000
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+  # This is for local development only, it is not recommended to use this in production
+  # The production database configuration is stored in app-config.production.yaml
   database:
     client: pg
     connection:
@@ -25,33 +34,18 @@ backend:
       port: ${POSTGRES_PORT}
       user: ${POSTGRES_USER}
       password: ${POSTGRES_PASSWORD}
-      # https://node-postgres.com/features/ssl
-      # you can set the sslmode configuration option via the `PGSSLMODE` environment variable
-      # see https://www.postgresql.org/docs/current/libpq-ssl.html Table 33.1. SSL Mode Descriptions (e.g. require)
-      # ssl:
-      #   ca: # if you have a CA file and want to verify it you can uncomment this section
-      #     $file: <file-path>/ca/server.crt
+  # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
 
-auth:
-  providers:
-    #    guest: {}
-    microsoft:
-      production:
-        clientId: ${AUTH_MICROSOFT_CLIENT_ID}
-        clientSecret: ${AUTH_MICROSOFT_CLIENT_SECRET}
-        tenantId: ${AUTH_MICROSOFT_TENANT_ID}
-        domainHint: ${AUTH_MICROSOFT_TENANT_ID}
-        signIn:
-          resolvers:
-            - resolver: emailLocalPartMatchingUserEntityName
-
-#integrations:
-#  github:
-    # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
-    # about setting up the GitHub integration here: https://backstage.io/docs/integrations/github/github-apps/#including-in-integrations-config
-#    - host: github.com
-#      apps:
-#        - $include: github-app-backstage-hmcts-credentials.yaml
+integrations:
+  github:
+    - host: github.com
+      # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
+      # about setting up the GitHub integration here: https://backstage.io/docs/integrations/github/locations#configuration
+      token: ${GITHUB_TOKEN}
+    ### Example for how to add your GitHub Enterprise instance using the API:
+    # - host: ghe.example.net
+    #   apiBaseUrl: https://ghe.example.net/api/v3
+    #   token: ${GHE_TOKEN}
 
 proxy:
 ### Example for how to add a proxy endpoint for the frontend.
@@ -72,90 +66,81 @@ techdocs:
   publisher:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
 
+auth:
+  # see https://backstage.io/docs/auth/ to learn about auth providers
+  environment: development
+  providers:
+    # See https://backstage.io/docs/auth/guest/provider
+    #    guest: {}
+    microsoft:
+      development:
+        clientId: ${AUTH_MICROSOFT_CLIENT_ID}
+        clientSecret: ${AUTH_MICROSOFT_CLIENT_SECRET}
+        tenantId: ${AUTH_MICROSOFT_TENANT_ID}
+        domainHint: ${AUTH_MICROSOFT_TENANT_ID}
+        signIn:
+          resolvers:
+            - resolver: emailMatchingUserEntityAnnotation
+            - resolver: emailMatchingUserEntityProfileEmail
+            - resolver: emailLocalPartMatchingUserEntityName
+
+scaffolder:
+# see https://backstage.io/docs/features/software-templates/configuration for software template options
+
 catalog:
+  providers:
+    microsoftGraphOrg:
+      default:
+        tenantId: ${AUTH_MICROSOFT_TENANT_ID}
+        clientId: ${AUTH_MICROSOFT_CLIENT_ID}
+        clientSecret: ${AUTH_MICROSOFT_CLIENT_SECRET}
+        # Optional configuration block
+        user:
+          # Filter to exclude service accounts and system users
+          filter: "userType eq 'Member'"
+          select: [ 'id', 'displayName', 'mail', 'userPrincipalName' ]
+        group:
+          # Filter out groups with problematic names (too long or invalid characters)
+          filter: "startswith(displayName, 'Backstage') or startswith(displayName, 'Development') or startswith(displayName, 'Engineering')"
+          select: [ 'id', 'displayName', 'description' ]
+        schedule:
+          frequency: PT1H
+          timeout: PT50M
   import:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
   rules:
-    - allow:
-        - Component
-        - API
-        - Resource
-        - Group
-        - User
-        - Template
-        - System
-        - Domain
-        - Location
-  providers:
-    github:
-      default:
-        organization: 'hmcts' # string
-        catalogPath: '/catalog-info.yaml' # string
-        filters:
-          topic:
-            include: [ 'backstage', 'jenkins-cft-a-c', 'jenkins-cft-d-i', 'jenkins-cft-j-z', 'jenkins-sds' ]
-        schedule:
-          frequency: PT3M
-          timeout: PT50M
-    microsoftGraphOrg:
-      production:
-        tenantId: ${AUTH_MICROSOFT_TENANT_ID}
-        clientId: ${AUTH_MICROSOFT_CLIENT_ID}
-        clientSecret: ${AUTH_MICROSOFT_CLIENT_SECRET}
-        user:
-          # Optional parameter to include the expanded resource or collection referenced
-          # by a single relationship (navigation property) in your results.
-          # Only one relationship can be expanded in a single request.
-          # See https://docs.microsoft.com/en-us/graph/query-parameters#expand-parameter
-          # Can be combined with userGroupMember[...] instead of userFilter.
-          expand: manager
-          # Optional filter for user, see Microsoft Graph API for the syntax
-          # See https://docs.microsoft.com/en-us/graph/api/resources/user?view=graph-rest-1.0#properties
-          # and for the syntax https://docs.microsoft.com/en-us/graph/query-parameters#filter-parameter
-          # This and userGroupMemberFilter are mutually exclusive, only one can be specified
-          filter: accountEnabled eq true
-        group:
-          # Optional parameter to include the expanded resource or collection referenced
-          # by a single relationship (navigation property) in your results.
-          # Only one relationship can be expanded in a single request.
-          # See https://docs.microsoft.com/en-us/graph/query-parameters#expand-parameter
-          # Can be combined with userGroupMember[...] instead of userFilter.
-          expand: member
-          # Optional filter for group, see Microsoft Graph API for the syntax
-          # See https://docs.microsoft.com/en-us/graph/api/resources/group?view=graph-rest-1.0#properties
-          filter: securityEnabled eq true
-          # Optional select for groups, this will allow you work with schemaExtensions
-          # in order to add extra information to your groups that can be used on you custom groupTransformers
-          # See  https://docs.microsoft.com/en-us/graph/api/resources/schemaextension?view=graph-rest-1.0
-          select: [ 'id', 'displayName', 'description' ]
-        schedule:
-          frequency: PT30M
-          timeout: PT50M
-  # Overrides the default list locations from app-config.yaml as these contain example data.
-  # See https://backstage.io/docs/features/software-catalog/#adding-components-to-the-catalog for more details
-  # on how to get entities into the catalog.
+    - allow: [Component, System, API, Resource, Location, User, Group]
   locations:
-    - type: url
-      target: https://github.com/hmcts/template-expressjs/blob/master/template.yaml
-      rules:
-        - allow: [ Template ]
-    - type: url
-      target: https://github.com/hmcts/template-spring-boot/blob/master/template.yaml
-      rules:
-        - allow: [ Template ]
-    - type: url
-      target: https://github.com/hmcts/template-java-client/blob/master/template.yaml
-      rules:
-        - allow: [ Template ]
-    - type: url
-      target: https://github.com/hmcts/template-product-infrastructure/blob/master/template.yaml
-      rules:
-        - allow: [ Template ]
+    # Root catalog info for HMCTS Backstage
+    - type: file
+      target: ../../catalog-info.yaml
 
-  apis:
-    - type: url
-      target: https://raw.githubusercontent.com/timja-org/backstage-manifests/master/api.yaml
+    # Local example data, file locations are relative to the backend process, typically `packages/backend`
+    - type: file
+      target: ../../examples/entities.yaml
+
+    # Local example template
+    - type: file
+      target: ../../examples/template/template.yaml
+      rules:
+        - allow: [Template]
+
+    # Local example organizational data
+    - type: file
+      target: ../../examples/org.yaml
+      rules:
+        - allow: [User, Group]
+
+    ## Uncomment these lines to add more example data
+    # - type: url
+    #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
+
+    ## Uncomment these lines to add an example org
+    # - type: url
+    #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/acme-corp.yaml
+    #   rules:
+    #     - allow: [User, Group]
 
 kubernetes:
 # see https://backstage.io/docs/features/kubernetes/configuration for kubernetes configuration options
