@@ -89,7 +89,7 @@ scaffolder:
 
 catalog:
   providers:
-      microsoftGraphOrg:
+    microsoftGraphOrg:
       default:
         tenantId: ${AUTH_MICROSOFT_TENANT_ID}
         clientId: ${AUTH_MICROSOFT_CLIENT_ID}

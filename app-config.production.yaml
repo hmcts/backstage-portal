@@ -42,7 +42,7 @@ auth:
 
 catalog:
   providers:
-      microsoftGraphOrg:
+    microsoftGraphOrg:
       production:
         tenantId: ${AUTH_MICROSOFT_TENANT_ID}
         clientId: ${AUTH_MICROSOFT_CLIENT_ID}
