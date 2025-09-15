@@ -50,7 +50,14 @@ integrations:
 
 catalog:
   providers:
-    microsoftGraphOrg:
+    github:
+      default:
+        organization: 'hmcts' # string
+        catalogPath: '/catalog-info.yaml' # string
+        filters:
+          topic:
+            include: [ 'backstage', 'jenkins-cft-a-c', 'jenkins-cft-d-i', 'jenkins-cft-j-z', 'jenkins-sds' ]
+      microsoftGraphOrg:
       production:
         tenantId: ${AUTH_MICROSOFT_TENANT_ID}
         clientId: ${AUTH_MICROSOFT_CLIENT_ID}
