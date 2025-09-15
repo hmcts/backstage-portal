@@ -80,9 +80,9 @@ auth:
         domainHint: ${AUTH_MICROSOFT_TENANT_ID}
         signIn:
           resolvers:
+            - resolver: emailMatchingUserEntityAnnotation
             - resolver: emailMatchingUserEntityProfileEmail
             - resolver: emailLocalPartMatchingUserEntityName
-            - resolver: emailMatchingUserEntityAnnotation
 
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
