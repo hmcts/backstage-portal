@@ -96,7 +96,7 @@ catalog:
         schedule:
           frequency: PT30M
           timeout: PT50M
-      microsoftGraphOrg:
+    microsoftGraphOrg:
       production:
         tenantId: ${AUTH_MICROSOFT_TENANT_ID}
         clientId: ${AUTH_MICROSOFT_CLIENT_ID}
