@@ -117,8 +117,13 @@ catalog:
           # See https://docs.microsoft.com/en-us/graph/api/resources/user?view=graph-rest-1.0#properties
           # and for the syntax https://docs.microsoft.com/en-us/graph/query-parameters#filter-parameter
           # This and userGroupMemberFilter are mutually exclusive, only one can be specified
-          filter: displayName eq '**User***'
+          # Removed overly restrictive filter to allow all users to be synced from Azure AD
+          # filter: displayName eq '**User***'
           select: [ 'id', 'displayName', 'mail' ]
+        group:
+          # Optional filter for groups
+          # filter: displayName eq 'Backstage Users'
+          select: [ 'id', 'displayName', 'description' ]
         schedule:
           frequency: PT1H
           timeout: PT50M
@@ -126,7 +131,7 @@ catalog:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
   rules:
-    - allow: [Component, System, API, Resource, Location]
+    - allow: [Component, System, API, Resource, Location, User, Group]
   locations:
 
     ## Uncomment these lines to add more example data

@@ -109,12 +109,45 @@ This will automatically create User and Group entities in the Backstage catalog 
 
 ### Sign-in Resolver Errors
 
-If you see "Failed to sign-in, unable to resolve user identity", ensure:
+If you see "Failed to sign-in, unable to resolve user identity", the issue is that there are no User entities in the catalog for the sign-in resolvers to match against.
 
-1. User entities exist in the catalog (either manually created in `examples/org.yaml` or synced via Microsoft Graph)
-2. The user's email in Azure AD matches either:
-   - The `metadata.name` of a User entity, OR
-   - The `spec.profile.email` of a User entity
+**Solution**: The Microsoft Graph catalog provider is configured to automatically sync User and Group entities from Azure AD. This requires:
+
+1. **Proper API permissions** (see section 4 above)
+2. **Admin consent** granted for the permissions
+3. **Environment variables** properly set
+
+The Microsoft Graph provider will:
+- Sync all users from your Azure AD tenant as User entities
+- Sync all groups from your Azure AD tenant as Group entities
+- Run every hour to keep entities up to date
+
+Once users are synced, the sign-in resolvers will be able to match authenticated Microsoft users to catalog entities:
+- `emailMatchingUserEntityProfileEmail`: Matches user's email to `spec.profile.email`
+- `emailLocalPartMatchingUserEntityName`: Matches email local part to `metadata.name`
+
+### Initial Sync
+
+After configuring the environment variables and starting Backstage:
+
+1. The Microsoft Graph provider will run its first sync within an hour
+2. You can check the logs for sync status
+3. User entities will appear in the catalog under "Users"
+4. Microsoft authentication should then work correctly
+
+### Manual User Entity Creation (Development Only)
+
+For immediate testing, you can temporarily add User entities to `examples/org.yaml` and include it in catalog locations:
+
+```yaml
+# In app-config.yaml under catalog.locations:
+- type: file
+  target: ../../examples/org.yaml
+  rules:
+    - allow: [User, Group]
+```
+
+However, the Microsoft Graph provider is the recommended approach for production use.
 
 ### API Permission Issues
 
