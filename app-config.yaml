@@ -91,39 +91,17 @@ catalog:
   providers:
     microsoftGraphOrg:
       default:
-        target: https://graph.microsoft.com/v1.0
-        # If you don't know you tenantId, you can use Microsoft Graph Explorer
-        # to query it
         tenantId: ${AUTH_MICROSOFT_TENANT_ID}
-        # Optional ClientId and ClientSecret if you don't want to use `DefaultAzureCredential`
-        # for authentication
-        # Client Id and Secret can be created under Certificates & secrets in
-        # the App registration in the Microsoft Azure Portal.
         clientId: ${AUTH_MICROSOFT_CLIENT_ID}
         clientSecret: ${AUTH_MICROSOFT_CLIENT_SECRET}
-        # Optional mode for querying which defaults to "basic".
-        # By default, the Microsoft Graph API only provides the basic feature set
-        # for querying. Certain features are limited to advanced querying capabilities.
-        # (See https://docs.microsoft.com/en-us/graph/aad-advanced-queries)
-        queryMode: advanced
         # Optional configuration block
         user:
-          # Optional parameter to include the expanded resource or collection referenced
-          # by a single relationship (navigation property) in your results.
-          # Only one relationship can be expanded in a single request.
-          # See https://docs.microsoft.com/en-us/graph/query-parameters#expand-parameter
-          # Can be combined with userGroupMember[...] instead of userFilter.
-#          expand: manager
-          # Optional filter for user, see Microsoft Graph API for the syntax
-          # See https://docs.microsoft.com/en-us/graph/api/resources/user?view=graph-rest-1.0#properties
-          # and for the syntax https://docs.microsoft.com/en-us/graph/query-parameters#filter-parameter
-          # This and userGroupMemberFilter are mutually exclusive, only one can be specified
-          # Removed overly restrictive filter to allow all users to be synced from Azure AD
-          # filter: displayName eq '**User***'
-          select: [ 'id', 'displayName', 'mail' ]
+          # Filter to exclude service accounts and system users
+          filter: "userType eq 'Member'"
+          select: [ 'id', 'displayName', 'mail', 'userPrincipalName' ]
         group:
-          # Optional filter for groups
-          # filter: displayName eq 'Backstage Users'
+          # Filter out groups with problematic names (too long or invalid characters)
+          filter: "startswith(displayName, 'Backstage') or startswith(displayName, 'Development') or startswith(displayName, 'Engineering')"
           select: [ 'id', 'displayName', 'description' ]
         schedule:
           frequency: PT1H
