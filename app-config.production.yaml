@@ -49,6 +49,20 @@ integrations:
         - $include: github-app-backstage-hmcts-credentials.yaml
 
 catalog:
+  import:
+    entityFilename: catalog-info.yaml
+    pullRequestBranchName: backstage-integration
+  rules:
+    - allow:
+        - Component
+        - API
+        - Resource
+        - Group
+        - User
+        - Template
+        - System
+        - Domain
+        - Location
   providers:
     github:
       default:
