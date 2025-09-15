@@ -57,6 +57,9 @@ catalog:
         filters:
           topic:
             include: [ 'backstage', 'jenkins-cft-a-c', 'jenkins-cft-d-i', 'jenkins-cft-j-z', 'jenkins-sds' ]
+        schedule:
+          frequency: PT30M
+          timeout: PT50M
     microsoftGraphOrg:
       production:
         tenantId: ${AUTH_MICROSOFT_TENANT_ID}
