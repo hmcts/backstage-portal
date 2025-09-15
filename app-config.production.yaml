@@ -1,1 +1,166 @@
-#empty - use to override default config
+app:
+  title: HMCTS Backstage App
+  # Should be the same as backend.baseUrl when using the `app-backend` plugin.
+  baseUrl: http://localhost:7007
+
+organization:
+  name: HMCTS
+
+backend:
+  # Note that the baseUrl should be the URL that the browser and other clients
+  # should use when communicating with the backend, i.e. it needs to be
+  # reachable not just from within the backend host, but from all of your
+  # callers. When its value is "http://localhost:7007", it's strictly private
+  # and can't be reached by others.
+  baseUrl: http://localhost:7007
+  # The listener can also be expressed as a single <host>:<port> string. In this case we bind to
+  # all interfaces, the most permissive setting. The right value depends on your specific deployment.
+  listen: ':7007'
+
+  # config options: https://node-postgres.com/apis/client
+  database:
+    client: pg
+    connection:
+      host: ${POSTGRES_HOST}
+      port: ${POSTGRES_PORT}
+      user: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
+      # https://node-postgres.com/features/ssl
+      # you can set the sslmode configuration option via the `PGSSLMODE` environment variable
+      # see https://www.postgresql.org/docs/current/libpq-ssl.html Table 33.1. SSL Mode Descriptions (e.g. require)
+      # ssl:
+      #   ca: # if you have a CA file and want to verify it you can uncomment this section
+      #     $file: <file-path>/ca/server.crt
+
+auth:
+  providers:
+    #    guest: {}
+    microsoft:
+      production:
+        clientId: ${AUTH_MICROSOFT_CLIENT_ID}
+        clientSecret: ${AUTH_MICROSOFT_CLIENT_SECRET}
+        tenantId: ${AUTH_MICROSOFT_TENANT_ID}
+        domainHint: ${AUTH_MICROSOFT_TENANT_ID}
+        signIn:
+          resolvers:
+            - resolver: emailLocalPartMatchingUserEntityName
+
+integrations:
+  github:
+    # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
+    # about setting up the GitHub integration here: https://backstage.io/docs/integrations/github/github-apps/#including-in-integrations-config
+    - host: github.com
+      apps:
+        - $include: github-app-backstage-hmcts-credentials.yaml
+
+proxy:
+### Example for how to add a proxy endpoint for the frontend.
+### A typical reason to do this is to handle HTTPS and CORS for internal services.
+# endpoints:
+#   '/test':
+#     target: 'https://example.com'
+#     changeOrigin: true
+
+# Reference documentation http://backstage.io/docs/features/techdocs/configuration
+# Note: After experimenting with basic setup, use CI/CD to generate docs
+# and an external cloud storage when deploying TechDocs for production use-case.
+# https://backstage.io/docs/features/techdocs/how-to-guides#how-to-migrate-from-techdocs-basic-to-recommended-deployment-approach
+techdocs:
+  builder: 'local' # Alternatives - 'external'
+  generator:
+    runIn: 'docker' # Alternatives - 'local'
+  publisher:
+    type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
+
+catalog:
+  import:
+    entityFilename: catalog-info.yaml
+    pullRequestBranchName: backstage-integration
+  rules:
+    - allow:
+        - Component
+        - API
+        - Resource
+        - Group
+        - User
+        - Template
+        - System
+        - Domain
+        - Location
+  providers:
+    github:
+      default:
+        organization: 'hmcts' # string
+        catalogPath: '/catalog-info.yaml' # string
+        filters:
+          topic:
+            include: [ 'backstage', 'jenkins-cft-a-c', 'jenkins-cft-d-i', 'jenkins-cft-j-z', 'jenkins-sds' ]
+        schedule:
+          frequency: PT3M
+          timeout: PT50M
+    microsoftGraphOrg:
+      production:
+        tenantId: ${AUTH_MICROSOFT_TENANT_ID}
+        clientId: ${AUTH_MICROSOFT_CLIENT_ID}
+        clientSecret: ${AUTH_MICROSOFT_CLIENT_SECRET}
+        user:
+          # Optional parameter to include the expanded resource or collection referenced
+          # by a single relationship (navigation property) in your results.
+          # Only one relationship can be expanded in a single request.
+          # See https://docs.microsoft.com/en-us/graph/query-parameters#expand-parameter
+          # Can be combined with userGroupMember[...] instead of userFilter.
+          expand: manager
+          # Optional filter for user, see Microsoft Graph API for the syntax
+          # See https://docs.microsoft.com/en-us/graph/api/resources/user?view=graph-rest-1.0#properties
+          # and for the syntax https://docs.microsoft.com/en-us/graph/query-parameters#filter-parameter
+          # This and userGroupMemberFilter are mutually exclusive, only one can be specified
+          filter: accountEnabled eq true
+        group:
+          # Optional parameter to include the expanded resource or collection referenced
+          # by a single relationship (navigation property) in your results.
+          # Only one relationship can be expanded in a single request.
+          # See https://docs.microsoft.com/en-us/graph/query-parameters#expand-parameter
+          # Can be combined with userGroupMember[...] instead of userFilter.
+          expand: member
+          # Optional filter for group, see Microsoft Graph API for the syntax
+          # See https://docs.microsoft.com/en-us/graph/api/resources/group?view=graph-rest-1.0#properties
+          filter: securityEnabled eq true
+          # Optional select for groups, this will allow you work with schemaExtensions
+          # in order to add extra information to your groups that can be used on you custom groupTransformers
+          # See  https://docs.microsoft.com/en-us/graph/api/resources/schemaextension?view=graph-rest-1.0
+          select: [ 'id', 'displayName', 'description' ]
+        schedule:
+          frequency: PT30M
+          timeout: PT50M
+  # Overrides the default list locations from app-config.yaml as these contain example data.
+  # See https://backstage.io/docs/features/software-catalog/#adding-components-to-the-catalog for more details
+  # on how to get entities into the catalog.
+  locations:
+    - type: url
+      target: https://github.com/hmcts/template-expressjs/blob/master/template.yaml
+      rules:
+        - allow: [ Template ]
+    - type: url
+      target: https://github.com/hmcts/template-spring-boot/blob/master/template.yaml
+      rules:
+        - allow: [ Template ]
+    - type: url
+      target: https://github.com/hmcts/template-java-client/blob/master/template.yaml
+      rules:
+        - allow: [ Template ]
+    - type: url
+      target: https://github.com/hmcts/template-product-infrastructure/blob/master/template.yaml
+      rules:
+        - allow: [ Template ]
+
+  apis:
+    - type: url
+      target: https://raw.githubusercontent.com/timja-org/backstage-manifests/master/api.yaml
+
+kubernetes:
+# see https://backstage.io/docs/features/kubernetes/configuration for kubernetes configuration options
+
+# see https://backstage.io/docs/permissions/getting-started for more on the permission framework
+permission:
+  # setting this to `false` will disable permissions
+  enabled: true
