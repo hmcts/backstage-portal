@@ -40,6 +40,14 @@ auth:
           resolvers:
             - resolver: emailLocalPartMatchingUserEntityName
 
+integrations:
+  github:
+    # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
+    # about setting up the GitHub integration here: https://backstage.io/docs/integrations/github/github-apps/#including-in-integrations-config
+    - host: github.com
+      apps:
+        - $include: github-app-backstage-hmcts-credentials.yaml
+
 catalog:
   providers:
     microsoftGraphOrg:
