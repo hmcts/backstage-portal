@@ -40,31 +40,8 @@ auth:
           resolvers:
             - resolver: emailLocalPartMatchingUserEntityName
 
-integrations:
-  github:
-    # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
-    # about setting up the GitHub integration here: https://backstage.io/docs/integrations/github/github-apps/#including-in-integrations-config
-    - host: github.com
-      apps:
-        - $include: github-app-backstage-hmcts-credentials.yaml
-
 catalog:
-  import:
-    entityFilename: catalog-info.yaml
-    pullRequestBranchName: backstage-integration
-  rules:
-    - allow: [ Component, System, API, Resource, Location, User, Group, Template, Domain ]
   providers:
-    github:
-      default:
-        organization: 'hmcts' # string
-        catalogPath: '/catalog-info.yaml' # string
-        filters:
-          topic:
-            include: [ 'backstage', 'jenkins-cft-a-c', 'jenkins-cft-d-i', 'jenkins-cft-j-z', 'jenkins-sds' ]
-        schedule:
-          frequency: PT30M
-          timeout: PT50M
       microsoftGraphOrg:
       production:
         tenantId: ${AUTH_MICROSOFT_TENANT_ID}

@@ -110,7 +110,7 @@ catalog:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
   rules:
-    - allow: [Component, System, API, Resource, Location, User, Group, Template, Domain]
+    - allow: [Component, System, API, Resource, Location, User, Group]
   locations:
 
     ## Uncomment these lines to add more example data
