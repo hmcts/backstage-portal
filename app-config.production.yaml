@@ -80,23 +80,19 @@ catalog:
   # See https://backstage.io/docs/features/software-catalog/#adding-components-to-the-catalog for more details
   # on how to get entities into the catalog.
   locations:
-    - type: url
-      target: https://github.com/hmcts/template-expressjs/blob/master/template.yaml
-      rules:
-        - allow: [ Template ]
-    - type: url
-      target: https://github.com/hmcts/template-spring-boot/blob/master/template.yaml
-      rules:
-        - allow: [ Template ]
-    - type: url
-      target: https://github.com/hmcts/template-java-client/blob/master/template.yaml
-      rules:
-        - allow: [ Template ]
-    - type: url
-      target: https://github.com/hmcts/template-product-infrastructure/blob/master/template.yaml
+    # Local example data, replace this with your production config, these are intended for demo use only.
+    # File locations are relative to the backend process, typically in a deployed context, such as in a Docker container, this will be the root
+    - type: file
+      target: ./examples/entities.yaml
+
+    # Local example template
+    - type: file
+      target: ./examples/template/template.yaml
       rules:
         - allow: [ Template ]
 
-  apis:
-    - type: url
-      target: https://raw.githubusercontent.com/timja-org/backstage-manifests/master/api.yaml
+    # Local example organizational data
+    - type: file
+      target: ./examples/org.yaml
+      rules:
+        - allow: [User, Group]

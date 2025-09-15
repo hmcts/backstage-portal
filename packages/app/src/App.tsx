@@ -40,7 +40,6 @@ import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/
 import { NotificationsPage } from '@backstage/plugin-notifications';
 import { SignalsDisplay } from '@backstage/plugin-signals';
 import { microsoftAuthApiRef } from '@backstage/core-plugin-api';
-import { TechRadarPage } from '@backstage-community/plugin-tech-radar';
 
 const microsoftAuthProvider: SignInProviderConfig = {
     id: 'microsoft-auth-provider',
@@ -117,10 +116,6 @@ const routes = (
     <Route path="/settings" element={<UserSettingsPage />} />
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
     <Route path="/notifications" element={<NotificationsPage />} />
-    <Route
-          path="/tech-radar"
-          element={<TechRadarPage width={1500} height={800} />}
-        />
   </FlatRoutes>
 );
 
