@@ -80,6 +80,7 @@ auth:
         domainHint: ${AUTH_MICROSOFT_TENANT_ID}
         signIn:
           resolvers:
+            - resolver: emailMatchingUserEntityAnnotation
             - resolver: emailMatchingUserEntityProfileEmail
             - resolver: emailLocalPartMatchingUserEntityName
 
@@ -90,18 +91,21 @@ catalog:
   providers:
     microsoftGraphOrg:
       default:
-        target: https://graph.microsoft.com/v1.0
         tenantId: ${AUTH_MICROSOFT_TENANT_ID}
         clientId: ${AUTH_MICROSOFT_CLIENT_ID}
         clientSecret: ${AUTH_MICROSOFT_CLIENT_SECRET}
-        queryMode: basic
+        # Optional configuration block
         user:
-          expand: manager
-          filter: accountEnabled eq true
+          # Filter to exclude service accounts and system users
+          filter: "userType eq 'Member'"
+          select: [ 'id', 'displayName', 'mail', 'userPrincipalName' ]
         group:
-          expand: member
-          filter: securityEnabled eq true
-          select: ['id', 'displayName', 'description']
+          # Filter out groups with problematic names (too long or invalid characters)
+          filter: "startswith(displayName, 'Backstage') or startswith(displayName, 'Development') or startswith(displayName, 'Engineering')"
+          select: [ 'id', 'displayName', 'description' ]
+        schedule:
+          frequency: PT1H
+          timeout: PT50M
   import:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
@@ -112,23 +116,21 @@ catalog:
     - type: file
       target: ../../catalog-info.yaml
 
-    # HMCTS Templates from external repositories
-    - type: url
-      target: https://github.com/hmcts/template-expressjs/blob/master/template.yaml
+    # Local example data, file locations are relative to the backend process, typically `packages/backend`
+    - type: file
+      target: ../../examples/entities.yaml
+
+    # Local example template
+    - type: file
+      target: ../../examples/template/template.yaml
       rules:
-        - allow: [ Template ]
-    - type: url
-      target: https://github.com/hmcts/template-spring-boot/blob/master/template.yaml
+        - allow: [Template]
+
+    # Local example organizational data
+    - type: file
+      target: ../../examples/org.yaml
       rules:
-        - allow: [ Template ]
-    - type: url
-      target: https://github.com/hmcts/template-java-client/blob/master/template.yaml
-      rules:
-        - allow: [ Template ]
-    - type: url
-      target: https://github.com/hmcts/template-product-infrastructure/blob/master/template.yaml
-      rules:
-        - allow: [ Template ]
+        - allow: [User, Group]
 
     ## Uncomment these lines to add more example data
     # - type: url
