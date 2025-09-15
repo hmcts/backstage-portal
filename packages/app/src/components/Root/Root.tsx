@@ -28,6 +28,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { MyGroupsSidebarItem } from '@backstage/plugin-org';
 import GroupIcon from '@material-ui/icons/People';
 import { NotificationsSidebarItem } from '@backstage/plugin-notifications';
+import MapIcon from '@material-ui/icons/MyLocation';
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -79,6 +80,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         {/* End global nav */}
         <SidebarDivider />
         <SidebarScrollWrapper>
+            <SidebarItem icon={MapIcon} to="tech-radar" text="Tech Radar" />
           {/* Items in this group will be scrollable if they run out of space */}
         </SidebarScrollWrapper>
       </SidebarGroup>
@@ -86,6 +88,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
       <SidebarDivider />
       <NotificationsSidebarItem />
       <SidebarDivider />
+
       <SidebarGroup
         label="Settings"
         icon={<UserSettingsSignInAvatar />}
