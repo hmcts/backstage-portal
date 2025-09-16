@@ -32,6 +32,24 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get install -y --no-install-recommends libsqlite3-dev && \
     rm -rf /var/lib/apt/lists/*
 
+# Install Python3, pip, and MkDocs for TechDocs
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    mkdocs \
+    python3 \
+    python3-pip \
+    python3-dev \
+    g++ \
+    make \
+    build-essential && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install MkDocs TechDocs core plugin
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip3 install --break-system-packages mkdocs-techdocs-core
+
 # From here on we use the least-privileged `node` user to run the backend.
 USER node
 
