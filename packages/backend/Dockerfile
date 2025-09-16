@@ -66,4 +66,4 @@ RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
 # Expose backend port
 EXPOSE 7007
 
-CM
+CMD ["node", "packages/backend", "--config", "app-config.yaml", "--config", "app-config.production.yaml"]
