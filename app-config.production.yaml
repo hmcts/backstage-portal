@@ -72,10 +72,9 @@ catalog:
       default:
         organization: 'hmcts' # string
         catalogPath: '/catalog-info.yaml' # string
-        #temporarily disabled to test new backstage structure
-#        filters:
-#          topic:
-#            include: [ 'backstage', 'jenkins-cft-a-c', 'jenkins-cft-d-i', 'jenkins-cft-j-z', 'jenkins-sds' ]
+        filters:
+          topic:
+            include: [ 'backstage', 'jenkins-cft-a-c', 'jenkins-cft-d-i', 'jenkins-cft-j-z', 'jenkins-sds' ]
     microsoftGraphOrg:
       production:
         tenantId: ${AUTH_MICROSOFT_TENANT_ID}
