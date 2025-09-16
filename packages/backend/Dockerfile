@@ -48,7 +48,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 
 # Install MkDocs TechDocs core plugin
 RUN --mount=type=cache,target=/root/.cache/pip \
-    pip3 install mkdocs-techdocs-core
+    pip3 install --break-system-packages mkdocs-techdocs-core
 
 # From here on we use the least-privileged `node` user to run the backend.
 USER node
