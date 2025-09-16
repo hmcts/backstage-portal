@@ -71,7 +71,7 @@ catalog:
     github:
       default:
         organization: 'hmcts' # string
-        catalogPath: 'catalog-info.yaml' # string
+        catalogPath: '/catalog-info.yaml' # string
         #temporarily disabled to test new backstage structure
 #        filters:
 #          topic:
