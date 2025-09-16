@@ -80,12 +80,6 @@ You will need to run the following commands to setup the application locally fro
 yarn install
 yarn start
 ```
-Once built you will need to also bring online the docker postgres database before you can start Backstage.
-
-Within the repository you will find `docker-compose.yaml` which contains 2 container definitions.
-
-- backend - only used when you build and image of the backend, not necessary now so you can comment this out completely.
-- postgres - required to run Backstage locally as it acts as the database service.
 
 To limit the integrations with 3rd party services you can comment out the following sections of `app-config.yaml` as they require connection details which are unnecessary for local development (unless you are specifically working on a plugin that uses them).
 
@@ -116,8 +110,6 @@ export AUTH_MICROSOFT_CLIENT_ID="< Found in Key Vault dtscftptl>"
 export AUTH_MICROSOFT_CLIENT_SECRET="< Found in Key Vault dtscftptl>"
 export AUTH_MICROSOFT_TENANT_ID="<Tenant ID>"
 ```
-
-The following are based on the `docker-compose.yaml` file settings:
 
 ```sh
 export POSTGRES_HOST=localhost
