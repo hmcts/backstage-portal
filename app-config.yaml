@@ -89,6 +89,10 @@ scaffolder:
 
 catalog:
   providers:
+    github:
+      default:
+        organization: 'hmcts' # string
+        catalogPath: 'catalog-info.yaml' # string
     microsoftGraphOrg:
       default:
         tenantId: ${AUTH_MICROSOFT_TENANT_ID}
