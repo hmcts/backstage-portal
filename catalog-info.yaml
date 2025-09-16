@@ -5,6 +5,8 @@ metadata:
   description: Our HMCTS backstage
   annotations:
     github.com/project-slug: hmcts/backstage-portal
+    backstage.io/adr-location: docs/adrs
+
 spec:
   type: website
   owner: dts_platform_operations
