@@ -48,12 +48,12 @@ integrations:
     #   token: ${GHE_TOKEN}
 
 proxy:
-  ### Example for how to add a proxy endpoint for the frontend.
-  ### A typical reason to do this is to handle HTTPS and CORS for internal services.
-  # endpoints:
-  #   '/test':
-  #     target: 'https://example.com'
-  #     changeOrigin: true
+### Example for how to add a proxy endpoint for the frontend.
+### A typical reason to do this is to handle HTTPS and CORS for internal services.
+# endpoints:
+#   '/test':
+#     target: 'https://example.com'
+#     changeOrigin: true
 
 # Reference documentation http://backstage.io/docs/features/techdocs/configuration
 # Note: After experimenting with basic setup, use CI/CD to generate docs
@@ -71,7 +71,7 @@ auth:
   environment: development
   providers:
     # See https://backstage.io/docs/auth/guest/provider
-#    guest: {}
+    #    guest: {}
     microsoft:
       development:
         clientId: ${AUTH_MICROSOFT_CLIENT_ID}
@@ -80,56 +80,28 @@ auth:
         domainHint: ${AUTH_MICROSOFT_TENANT_ID}
         signIn:
           resolvers:
+            - resolver: emailMatchingUserEntityAnnotation
             - resolver: emailMatchingUserEntityProfileEmail
+            - resolver: emailLocalPartMatchingUserEntityName
 
 scaffolder:
-  # see https://backstage.io/docs/features/software-templates/configuration for software template options
+# see https://backstage.io/docs/features/software-templates/configuration for software template options
 
 catalog:
   providers:
     microsoftGraphOrg:
       default:
-        target: https://graph.microsoft.com/v1.0
-        # If you don't know you tenantId, you can use Microsoft Graph Explorer
-        # to query it
         tenantId: ${AUTH_MICROSOFT_TENANT_ID}
-        # Optional ClientId and ClientSecret if you don't want to use `DefaultAzureCredential`
-        # for authentication
-        # Client Id and Secret can be created under Certificates & secrets in
-        # the App registration in the Microsoft Azure Portal.
         clientId: ${AUTH_MICROSOFT_CLIENT_ID}
         clientSecret: ${AUTH_MICROSOFT_CLIENT_SECRET}
-        # Optional mode for querying which defaults to "basic".
-        # By default, the Microsoft Graph API only provides the basic feature set
-        # for querying. Certain features are limited to advanced querying capabilities.
-        # (See https://docs.microsoft.com/en-us/graph/aad-advanced-queries)
-        queryMode: basic # basic | advanced
         # Optional configuration block
         user:
-          # Optional parameter to include the expanded resource or collection referenced
-          # by a single relationship (navigation property) in your results.
-          # Only one relationship can be expanded in a single request.
-          # See https://docs.microsoft.com/en-us/graph/query-parameters#expand-parameter
-          # Can be combined with userGroupMember[...] instead of userFilter.
-          expand: manager
-          # Optional filter for user, see Microsoft Graph API for the syntax
-          # See https://docs.microsoft.com/en-us/graph/api/resources/user?view=graph-rest-1.0#properties
-          # and for the syntax https://docs.microsoft.com/en-us/graph/query-parameters#filter-parameter
-          # This and userGroupMemberFilter are mutually exclusive, only one can be specified
-          filter: accountEnabled eq true
+          # Filter to exclude service accounts and system users
+          filter: "userType eq 'Member'"
+          select: [ 'id', 'displayName', 'mail', 'userPrincipalName' ]
         group:
-          # Optional parameter to include the expanded resource or collection referenced
-          # by a single relationship (navigation property) in your results.
-          # Only one relationship can be expanded in a single request.
-          # See https://docs.microsoft.com/en-us/graph/query-parameters#expand-parameter
-          # Can be combined with userGroupMember[...] instead of userFilter.
-          expand: member
-          # Optional filter for group, see Microsoft Graph API for the syntax
-          # See https://docs.microsoft.com/en-us/graph/api/resources/group?view=graph-rest-1.0#properties
-          filter: securityEnabled eq true
-          # Optional select for groups, this will allow you work with schemaExtensions
-          # in order to add extra information to your groups that can be used on you custom groupTransformers
-          # See  https://docs.microsoft.com/en-us/graph/api/resources/schemaextension?view=graph-rest-1.0
+          # Filter out groups with problematic names (too long or invalid characters)
+          filter: "startswith(displayName, 'Backstage') or startswith(displayName, 'Development') or startswith(displayName, 'Engineering')"
           select: [ 'id', 'displayName', 'description' ]
         schedule:
           frequency: PT1H
@@ -138,8 +110,12 @@ catalog:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
   rules:
-    - allow: [Component, System, API, Resource, Location]
+    - allow: [Component, System, API, Resource, Location, User, Group]
   locations:
+    # Root catalog info for HMCTS Backstage
+    - type: file
+      target: ../../catalog-info.yaml
+
     # Local example data, file locations are relative to the backend process, typically `packages/backend`
     - type: file
       target: ../../examples/entities.yaml
@@ -151,10 +127,10 @@ catalog:
         - allow: [Template]
 
     # Local example organizational data
-#    - type: file
-#      target: ../../examples/org.yaml
-#      rules:
-#        - allow: [User, Group]
+    - type: file
+      target: ../../examples/org.yaml
+      rules:
+        - allow: [User, Group]
 
     ## Uncomment these lines to add more example data
     # - type: url
@@ -167,7 +143,7 @@ catalog:
     #     - allow: [User, Group]
 
 kubernetes:
-  # see https://backstage.io/docs/features/kubernetes/configuration for kubernetes configuration options
+# see https://backstage.io/docs/features/kubernetes/configuration for kubernetes configuration options
 
 # see https://backstage.io/docs/permissions/getting-started for more on the permission framework
 permission:
