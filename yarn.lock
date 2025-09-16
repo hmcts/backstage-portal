@@ -15006,6 +15006,7 @@ __metadata:
     "@backstage/plugin-auth-backend-module-microsoft-provider": "npm:^0.3.6"
     "@backstage/plugin-auth-node": "npm:^0.6.6"
     "@backstage/plugin-catalog-backend": "npm:^3.0.1"
+    "@backstage/plugin-catalog-backend-module-github": "npm:^0.10.2"
     "@backstage/plugin-catalog-backend-module-github-org": "npm:^0.3.13"
     "@backstage/plugin-catalog-backend-module-logs": "npm:^0.1.13"
     "@backstage/plugin-catalog-backend-module-msgraph": "npm:^0.7.3"
