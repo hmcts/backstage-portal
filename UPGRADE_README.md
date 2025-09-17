@@ -97,10 +97,12 @@ The new repository uses Backstage's latest backend system with significant archi
 - **Search**: Enhanced search capabilities with PostgreSQL backend
 
 ### **Removed Legacy Plugins**
-- **Code Coverage**: Removed deprecated code coverage plugin
-- **TODO**: Removed legacy TODO plugin
-- **Badges**: Simplified badge system
+- **Code Coverage**: Removed deprecated code coverage plugin (`@backstage/plugin-code-coverage-backend`)
+- **TODO**: Removed legacy TODO plugin (`@backstage/plugin-todo-backend`) 
+- **Badges**: Simplified badge system (`@backstage/plugin-badges-backend`)
 - **🔥 Custom Auth Plugin**: Replaced custom Microsoft auth implementation with standard module
+- **🔥 Custom ApiCatalogProvider**: Replaced custom API catalog provider with standard providers
+- **🔥 Custom Healthcheck**: Replaced custom healthcheck with standard Backstage healthcheck
 
 ## 🔐 Security Improvements
 
@@ -243,7 +245,7 @@ The new repository uses Backstage's latest backend system with significant archi
 2. **Performance**: Faster and more responsive experience
 3. **Features**: Access to new Backstage features
 
-**Key takeaway**: The custom Microsoft authentication plugin (~50 lines of custom auth logic) has been completely replaced with Backstage's standard Microsoft authentication module, resulting in simpler, more maintainable, and more secure authentication.
+**Key takeaway**: Multiple custom plugins and logic (~200+ lines of custom code) have been completely replaced with Backstage's standard modules, resulting in simpler, more maintainable, and more secure implementations. This includes custom authentication, API catalog providers, healthcheck functionality, and legacy backend plugins.
 
 ## 🎉 Conclusion
 
@@ -254,3 +256,32 @@ The new repository maintains all the core functionality that teams depend on whi
 ---
 
 *For questions or support regarding this migration, please refer to the main README.md or contact the platform team.*
+
+#### **🔥 Additional Custom Logic Removed**
+
+Beyond the custom Microsoft authentication, several other custom plugins and logic were modernized:
+
+- **Custom ApiCatalogProvider** (`packages/backend/src/plugins/apiCatalogProvider.ts`):
+  - Custom entity provider for API catalog updates
+  - Handled Swagger documentation refresh logic
+  - Replaced with standard Backstage catalog providers
+
+- **Custom Healthcheck Plugin** (`packages/backend/src/plugins/healthcheck.ts`):
+  - Custom healthcheck router implementation
+  - Replaced with standard Backstage healthcheck functionality
+
+- **Legacy Backend Plugins Removed**:
+  - **Code Coverage Plugin** (`packages/backend/src/plugins/codecoverage.ts`): Custom code coverage backend
+  - **Badges Plugin** (`packages/backend/src/plugins/badges.ts`): Custom badges backend  
+  - **TODO Plugin** (`packages/backend/src/plugins/todo.ts`): Custom TODO backend
+  - All replaced with standard Backstage modules or removed as deprecated
+
+- **Custom Processing Utilities**:
+  - `packages/backend/src/processing/util.ts`: Custom entity processing functions
+  - `packages/backend/src/util/conversion.ts`: Custom location/entity conversion utilities
+  - Replaced with standard Backstage catalog processing
+
+- **Legacy Backend Architecture**:
+  - **Old**: `createServiceBuilder` pattern with manual plugin routing
+  - **New**: Modern `createBackend()` with declarative module system
+  - **Impact**: Cleaner, more maintainable backend initialization
