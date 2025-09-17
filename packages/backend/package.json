@@ -34,6 +34,7 @@
     "@backstage/plugin-catalog-backend-module-msgraph": "^0.7.3",
     "@backstage/plugin-catalog-backend-module-scaffolder-entity-model": "^0.2.11",
     "@backstage/plugin-catalog-node": "^1.18.0",
+    "@backstage/plugin-home": "0.4.25",
     "@backstage/plugin-kubernetes-backend": "^0.20.0",
     "@backstage/plugin-notifications-backend": "^0.5.9",
     "@backstage/plugin-permission-backend": "^0.7.3",
