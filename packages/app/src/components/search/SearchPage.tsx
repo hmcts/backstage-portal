@@ -1,4 +1,4 @@
-import { makeStyles, Theme, Grid, Paper } from '@material-ui/core';
+import { makeStyles, Theme, Grid, Paper, List } from '@material-ui/core';
 
 import { CatalogSearchResultListItem } from '@backstage/plugin-catalog';
 import {
@@ -23,6 +23,9 @@ import {
   Page,
 } from '@backstage/core-components';
 import { useApi } from '@backstage/core-plugin-api';
+
+import { AdrSearchResultListItem } from '@backstage-community/plugin-adr';
+import { AdrDocument } from '@backstage-community/plugin-adr-common';
 
 const useStyles = makeStyles((theme: Theme) => ({
   bar: {
@@ -60,14 +63,19 @@ const SearchPage = () => {
               defaultValue="software-catalog"
               types={[
                 {
-                  value: 'software-catalog',
-                  name: 'Software Catalog',
-                  icon: <CatalogIcon />,
+                  value: 'adr',
+                  name: 'Architecture Decision Records',
+                  icon: <DocsIcon />,
                 },
                 {
                   value: 'techdocs',
                   name: 'Documentation',
                   icon: <DocsIcon />,
+                },
+                {
+                  value: 'software-catalog',
+                  name: 'Software Catalog',
+                  icon: <CatalogIcon />,
                 },
               ]}
             />
@@ -78,7 +86,6 @@ const SearchPage = () => {
                   label="Entity"
                   name="name"
                   values={async () => {
-                    // Return a list of entities which are documented.
                     const { items } = await catalogApi.getEntities({
                       fields: ['metadata.name'],
                       filter: {
@@ -110,8 +117,38 @@ const SearchPage = () => {
           <Grid item xs={9}>
             <SearchPagination />
             <SearchResult>
-              <CatalogSearchResultListItem icon={<CatalogIcon />} />
-              <TechDocsSearchResultListItem icon={<DocsIcon />} />
+              {({ results }) => (
+                <List>
+                  {results.map(({ type, document }) => {
+                    switch (type) {
+                      case 'software-catalog':
+                        return (
+                          <CatalogSearchResultListItem
+                            key={document.location}
+                            result={document}
+                          />
+                        );
+                      case 'techdocs':
+                        return (
+                          <TechDocsSearchResultListItem
+                            key={document.location}
+                            result={document}
+                          />
+                        );
+                      case 'adr':
+                        return (
+                          <AdrSearchResultListItem
+                            key={document.location}
+                            result={document as AdrDocument}
+                          />
+                        );
+                      default:
+                        // you can include a DefaultResultListItem or fallback
+                        return null;
+                    }
+                  })}
+                </List>
+              )}
             </SearchResult>
           </Grid>
         </Grid>
