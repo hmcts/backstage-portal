@@ -45,8 +45,6 @@ auth:
         domainHint: ${AUTH_MICROSOFT_TENANT_ID}
         signIn:
           resolvers:
-            - resolver: emailMatchingUserEntityAnnotation
-            - resolver: emailMatchingUserEntityProfileEmail
             - resolver: emailLocalPartMatchingUserEntityName
 integrations:
   github:
@@ -144,7 +142,3 @@ catalog:
       target: https://github.com/hmcts/template-product-infrastructure/blob/master/template.yaml
       rules:
         - allow: [ Template ]
-    - type: url
-      target: https://raw.githubusercontent.com/timja-org/backstage-manifests/master/api.yaml
- #   - type: url
- #     target: https://raw.githubusercontent.com/hmcts/reform-api-docs/master/docs/backstage/labs-jackmaloney2-api.yaml
