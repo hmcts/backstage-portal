@@ -57,6 +57,7 @@ import {
   EntityKubernetesContent,
   isKubernetesAvailable,
 } from '@backstage/plugin-kubernetes';
+import { EntityAdrContent, isAdrAvailable } from '@backstage-community/plugin-adr';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -186,6 +187,10 @@ const serviceEntityPage = (
     <EntityLayout.Route path="/docs" title="Docs">
       {techdocsContent}
     </EntityLayout.Route>
+
+    <EntityLayout.Route if={isAdrAvailable} path="/adrs" title="ADRs">
+          <EntityAdrContent />
+        </EntityLayout.Route>
   </EntityLayout>
 );
 

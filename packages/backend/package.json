@@ -16,6 +16,8 @@
     "build-image": "docker build ../.. -f Dockerfile --tag backstage"
   },
   "dependencies": {
+    "@backstage-community/plugin-adr-backend": "^0.13.0",
+    "@backstage-community/search-backend-module-adr": "^0.10.0",
     "@backstage/backend-defaults": "^0.12.0",
     "@backstage/backend-plugin-api": "^1.4.2",
     "@backstage/catalog-model": "^1.7.5",

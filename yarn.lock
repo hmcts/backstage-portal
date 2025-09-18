@@ -1763,6 +1763,71 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage-community/plugin-adr-backend@npm:^0.13.0":
+  version: 0.13.0
+  resolution: "@backstage-community/plugin-adr-backend@npm:0.13.0"
+  dependencies:
+    "@backstage-community/plugin-adr-common": "npm:^0.11.0"
+    "@backstage-community/search-backend-module-adr": "npm:^0.10.0"
+    "@backstage/backend-plugin-api": "npm:^1.4.2"
+    "@backstage/catalog-client": "npm:^1.11.0"
+    "@backstage/catalog-model": "npm:^1.7.5"
+    "@backstage/config": "npm:^1.3.3"
+    "@backstage/errors": "npm:^1.2.7"
+    "@backstage/integration": "npm:^1.17.1"
+    "@backstage/plugin-search-common": "npm:^1.2.19"
+    "@types/express": "npm:^4.17.6"
+    express: "npm:^4.17.1"
+    express-promise-router: "npm:^4.1.0"
+    luxon: "npm:^3.0.0"
+    node-fetch: "npm:^2.6.5"
+    yn: "npm:^4.0.0"
+  checksum: 10c0/71fc488c2467469b6dc147e3b4f3db2729906aa39b7f201c330e659a152258ae669c327de4116330ab5851c8be0d8052adb35a7c2c803908b8f98bd5300da71e
+  languageName: node
+  linkType: hard
+
+"@backstage-community/plugin-adr-common@npm:^0.11.0":
+  version: 0.11.0
+  resolution: "@backstage-community/plugin-adr-common@npm:0.11.0"
+  dependencies:
+    "@backstage/catalog-model": "npm:^1.7.5"
+    "@backstage/integration": "npm:^1.17.1"
+    "@backstage/plugin-search-common": "npm:^1.2.19"
+    front-matter: "npm:^4.0.2"
+    luxon: "npm:^3.0.0"
+    marked: "npm:^12.0.0"
+  checksum: 10c0/7ab86021d9f0b525e4ad1aedb2ec32c6c529c4b025624a512fbd4b76e0b830ce193163c09cc02172c3525a56111627024129aa63036c03b0f05e1075ec8492f1
+  languageName: node
+  linkType: hard
+
+"@backstage-community/plugin-adr@npm:^0.14.0":
+  version: 0.14.0
+  resolution: "@backstage-community/plugin-adr@npm:0.14.0"
+  dependencies:
+    "@backstage-community/plugin-adr-common": "npm:^0.11.0"
+    "@backstage/catalog-model": "npm:^1.7.5"
+    "@backstage/core-compat-api": "npm:^0.5.1"
+    "@backstage/core-components": "npm:^0.17.5"
+    "@backstage/core-plugin-api": "npm:^1.10.9"
+    "@backstage/frontend-plugin-api": "npm:^0.11.0"
+    "@backstage/integration-react": "npm:^1.2.9"
+    "@backstage/plugin-auth-react": "npm:^0.1.18"
+    "@backstage/plugin-catalog-react": "npm:^1.20.1"
+    "@backstage/plugin-search-common": "npm:^1.2.19"
+    "@backstage/plugin-search-react": "npm:^1.9.3"
+    "@material-ui/core": "npm:^4.12.2"
+    "@material-ui/icons": "npm:^4.9.1"
+    "@types/react": "npm:^16.13.1 || ^17.0.0 || ^18.0.0"
+    lodash: "npm:^4.17.21"
+    react-use: "npm:^17.2.4"
+  peerDependencies:
+    react: ^16.13.1 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
+    react-router-dom: 6.0.0-beta.0 || ^6.3.0
+  checksum: 10c0/825adbbbfca75bd03c609a72e71e9e231ce4b5b58e2ad5bf52c3da8ab29d3bf9f933617f20cb2717f7cc3ba91ada1298a6661849b48f9942e3a303b2c99e227c
+  languageName: node
+  linkType: hard
+
 "@backstage-community/plugin-tech-radar-common@npm:^1.9.1":
   version: 1.9.1
   resolution: "@backstage-community/plugin-tech-radar-common@npm:1.9.1"
@@ -1792,6 +1857,26 @@ __metadata:
     react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
     react-router-dom: 6.0.0-beta.0 || ^6.3.0
   checksum: 10c0/63181d5d4fbbf22ecdc845603000ff6b736137ce5299167f752e3e8086414f15ab9ecce99e99369d40e94650701a2bdf63d1579a532579f1d63aedced2927374
+  languageName: node
+  linkType: hard
+
+"@backstage-community/search-backend-module-adr@npm:^0.10.0":
+  version: 0.10.0
+  resolution: "@backstage-community/search-backend-module-adr@npm:0.10.0"
+  dependencies:
+    "@backstage-community/plugin-adr-common": "npm:^0.11.0"
+    "@backstage/backend-plugin-api": "npm:^1.4.2"
+    "@backstage/catalog-client": "npm:^1.11.0"
+    "@backstage/catalog-model": "npm:^1.7.5"
+    "@backstage/config": "npm:^1.3.3"
+    "@backstage/errors": "npm:^1.2.7"
+    "@backstage/integration": "npm:^1.17.1"
+    "@backstage/plugin-catalog-node": "npm:^1.18.0"
+    "@backstage/plugin-search-backend-node": "npm:^1.3.14"
+    "@backstage/plugin-search-common": "npm:^1.2.19"
+    luxon: "npm:^3.0.0"
+    marked: "npm:^12.0.0"
+  checksum: 10c0/4a1fd14da22eef7eb67f37b126a7c3a1b7184e9ca4e38037973b3caf9097976c37d8c0de6fc65fd0ccefa86946de2f70b852e4eb8c2f1225e92c78012ccfdc62
   languageName: node
   linkType: hard
 
@@ -15051,6 +15136,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "app@workspace:packages/app"
   dependencies:
+    "@backstage-community/plugin-adr": "npm:^0.14.0"
+    "@backstage-community/plugin-adr-backend": "npm:^0.13.0"
+    "@backstage-community/plugin-adr-common": "npm:^0.11.0"
     "@backstage-community/plugin-tech-radar": "npm:^1.10.1"
     "@backstage/app-defaults": "npm:^1.6.5"
     "@backstage/catalog-model": "npm:^1.7.5"
@@ -15683,6 +15771,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "backend@workspace:packages/backend"
   dependencies:
+    "@backstage-community/plugin-adr-backend": "npm:^0.13.0"
+    "@backstage-community/search-backend-module-adr": "npm:^0.10.0"
     "@backstage/backend-defaults": "npm:^0.12.0"
     "@backstage/backend-plugin-api": "npm:^1.4.2"
     "@backstage/catalog-model": "npm:^1.7.5"
@@ -20299,6 +20389,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"front-matter@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "front-matter@npm:4.0.2"
+  dependencies:
+    js-yaml: "npm:^3.13.1"
+  checksum: 10c0/7a0df5ca37428dd563c057bc17a8940481fe53876609bcdc443a02ce463c70f1842c7cb4628b80916de46a253732794b36fb6a31105db0f185698a93acee4011
+  languageName: node
+  linkType: hard
+
 "fs-constants@npm:^1.0.0":
   version: 1.0.0
   resolution: "fs-constants@npm:1.0.0"
@@ -24562,6 +24661,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"marked@npm:^12.0.0":
+  version: 12.0.2
+  resolution: "marked@npm:12.0.2"
+  bin:
+    marked: bin/marked.js
+  checksum: 10c0/45ae2e1e3f06b30a5b5f64efc6cde9830c81d1d024fd7668772a3217f1bc0f326e66a6b8970482d9783edf1f581fecac7023a7fa160f2c14dbcc16e064b4eafb
+  languageName: node
+  linkType: hard
+
 "marked@npm:^4.0.14":
   version: 4.3.0
   resolution: "marked@npm:4.3.0"
@@ -25952,7 +26060,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.7, node-fetch@npm:^2.6.9, node-fetch@npm:^2.7.0":
+"node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.5, node-fetch@npm:^2.6.7, node-fetch@npm:^2.6.9, node-fetch@npm:^2.7.0":
   version: 2.7.0
   resolution: "node-fetch@npm:2.7.0"
   dependencies:

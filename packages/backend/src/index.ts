@@ -68,4 +68,8 @@ backend.add(import('@backstage/plugin-notifications-backend'));
 backend.add(import('@backstage/plugin-signals-backend'));
 backend.add(import('@backstage/plugin-catalog-backend-module-msgraph'));
 
+// ADR plugin
+backend.add(import('@backstage-community/plugin-adr-backend'));
+backend.add(import('@backstage-community/search-backend-module-adr'));
+
 backend.start();
