@@ -16,6 +16,9 @@ backend:
   # The listener can also be expressed as a single <host>:<port> string. In this case we bind to
   # all interfaces, the most permissive setting. The right value depends on your specific deployment.
   listen: ':7007'
+  reading:
+    allow:
+      - host: raw.githubusercontent.com
 
   # config options: https://node-postgres.com/apis/client
   database:
@@ -43,7 +46,6 @@ auth:
         signIn:
           resolvers:
             - resolver: emailLocalPartMatchingUserEntityName
-
 integrations:
   github:
     # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
@@ -140,7 +142,3 @@ catalog:
       target: https://github.com/hmcts/template-product-infrastructure/blob/master/template.yaml
       rules:
         - allow: [ Template ]
-
-  apis:
-    - type: url
-      target: https://raw.githubusercontent.com/timja-org/backstage-manifests/master/api.yaml
