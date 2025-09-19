@@ -83,10 +83,23 @@ yarn start
 
 To limit the integrations with 3rd party services you can comment out the following sections of `app-config.yaml` as they require connection details which are unnecessary for local development (unless you are specifically working on a plugin that uses them).
 
-	@@ -36,4 +101,31 @@ integrations:
+```yaml
+jenkins:
+  instances:
+    - name: cft
+      baseUrl: ${JENKINS_CFT_URL}
+      username: ${JENKINS_CFT_USERNAME}
+      apiKey: ${JENKINS_CFT_API_KEY}
+```
+
+```yaml
+integrations:
+  github:
+    # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
+    # about setting up the GitHub integration here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
+    - host: github.com
       apps:
         - $include: github-app-backstage-hmcts-credentials.yaml
-
 ```
 
 Finally before you can start the application you need to setup environment variables for the Azure SSO login and Postgres connection:
@@ -111,6 +124,10 @@ yarn start
 ```
 
 A browser window should open and load `http://localhost:3000` for you to log into Backstage.
+
+## Examples
+
+You can find examples of config to make use of this Backstage instance by looking at the [HMCTS Backstage examples repository](https://github.com/hmcts/backstage-hmcts-examples)
 
 ## Try out the Live deployment
 

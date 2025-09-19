@@ -93,10 +93,7 @@ export const HomePage = () => {
                                 <HomePageStarredEntities />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <HomePageToolkit
-                                    title="Links"
-                                    tools={links}
-                                />
+                                <HomePageToolkit title="Links" tools={links} />
                             </Grid>
                         </Grid>
                     </Grid>

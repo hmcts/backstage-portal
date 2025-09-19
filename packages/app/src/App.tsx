@@ -1,4 +1,5 @@
 import { Route } from 'react-router-dom';
+
 import { apiDocsPlugin, ApiExplorerPage } from '@backstage/plugin-api-docs';
 import {
   CatalogEntityPage,
@@ -20,12 +21,18 @@ import {
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { UserSettingsPage } from '@backstage/plugin-user-settings';
-import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 import { searchPage } from './components/search/SearchPage';
 import { Root } from './components/Root';
-import { HomepageCompositionRoot } from '@backstage/plugin-home';
+import { HomepageCompositionRoot, VisitListener } from '@backstage/plugin-home';
 import { HomePage } from './components/home/HomePage';
+import jenkinsPlugin from '@backstage-community/plugin-jenkins/alpha';
+import { apis } from './apis';
+
+import {
+  createFrontendModule,
+  SignInPageBlueprint,
+} from '@backstage/frontend-plugin-api';
 
 import {
   AlertDisplay,
@@ -34,7 +41,12 @@ import {
   SignInPage,
 } from '@backstage/core-components';
 
-import { createApp } from '@backstage/app-defaults';
+import { createApp } from '@backstage/frontend-defaults';
+import {
+  convertLegacyAppRoot,
+  convertLegacyRouteRef,
+  convertLegacyRouteRefs,
+} from '@backstage/core-compat-api';
 import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
@@ -44,41 +56,21 @@ import { SignalsDisplay } from '@backstage/plugin-signals';
 import { microsoftAuthApiRef } from '@backstage/core-plugin-api';
 import { TechRadarPage } from '@backstage-community/plugin-tech-radar';
 
+
 const microsoftAuthProvider: SignInProviderConfig = {
-    id: 'microsoft-auth-provider',
-    title: 'Microsoft',
-    message: 'Sign in using Microsoft',
-    apiRef: microsoftAuthApiRef,
+  id: 'microsoft-auth-provider',
+  title: 'Microsoft',
+  message: 'Sign in using Microsoft',
+  apiRef: microsoftAuthApiRef,
 };
 
-const app = createApp({
-  apis,
-  bindRoutes({ bind }) {
-    bind(catalogPlugin.externalRoutes, {
-      createComponent: scaffolderPlugin.routes.root,
-      viewTechDoc: techdocsPlugin.routes.docRoot,
-      createFromTemplate: scaffolderPlugin.routes.selectedTemplate,
-    });
-    bind(apiDocsPlugin.externalRoutes, {
-      registerApi: catalogImportPlugin.routes.importPage,
-    });
-    bind(scaffolderPlugin.externalRoutes, {
-      registerComponent: catalogImportPlugin.routes.importPage,
-      viewTechDoc: techdocsPlugin.routes.docRoot,
-    });
-    bind(orgPlugin.externalRoutes, {
-      catalogIndex: catalogPlugin.routes.catalogIndex,
-    });
-  },
-  components: {
-    SignInPage: props => (
+const signInPage = SignInPageBlueprint.make({
+  params: {
+    loader: async () => (props) => (
       <SignInPage
         {...props}
         auto
-        providers={[
-//             'guest',
-            microsoftAuthProvider
-        ]}
+        providers={[microsoftAuthProvider]}
       />
     ),
   },
@@ -87,26 +79,24 @@ const app = createApp({
 const routes = (
   <FlatRoutes>
     <Route path="/" element={<HomepageCompositionRoot />}>
-        <HomePage />
+      <HomePage />
     </Route>
+
     <Route path="/catalog" element={<CatalogIndexPage />} />
-    <Route
-      path="/catalog/:namespace/:kind/:name"
-      element={<CatalogEntityPage />}
-    >
+    <Route path="/catalog/:namespace/:kind/:name" element={<CatalogEntityPage />}>
       {entityPage}
     </Route>
+
     <Route path="/docs" element={<TechDocsIndexPage />} />
-    <Route
-      path="/docs/:namespace/:kind/:name/*"
-      element={<TechDocsReaderPage />}
-    >
+    <Route path="/docs/:namespace/:kind/:name/*" element={<TechDocsReaderPage />}>
       <TechDocsAddons>
         <ReportIssue />
       </TechDocsAddons>
     </Route>
+
     <Route path="/create" element={<ScaffolderPage />} />
     <Route path="/api-docs" element={<ApiExplorerPage />} />
+
     <Route
       path="/catalog-import"
       element={
@@ -115,21 +105,21 @@ const routes = (
         </RequirePermission>
       }
     />
+
     <Route path="/search" element={<SearchPage />}>
       {searchPage}
     </Route>
+
     <Route path="/settings" element={<UserSettingsPage />} />
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
     <Route path="/notifications" element={<NotificationsPage />} />
-    <Route
-          path="/tech-radar"
-          element={<TechRadarPage width={1500} height={800} />}
-        />
+    <Route path="/tech-radar" element={<TechRadarPage width={1500} height={800} />} />
   </FlatRoutes>
 );
 
-export default app.createRoot(
+const legacyFeatures = convertLegacyAppRoot(
   <>
+    <VisitListener />
     <AlertDisplay />
     <OAuthRequestDialog />
     <SignalsDisplay />
@@ -138,3 +128,45 @@ export default app.createRoot(
     </AppRouter>
   </>,
 );
+
+const backstageApp = createApp({
+  features: [
+    ...legacyFeatures,
+    jenkinsPlugin,
+
+    createFrontendModule({
+      pluginId: 'app',
+      extensions: [
+          ...apis,
+          signInPage,
+      ],
+    }),
+  ],
+  // bind legacy plugin externalRoutes to each other
+  bindRoutes({ bind }) {
+    bind(convertLegacyRouteRefs(catalogPlugin.externalRoutes), {
+      createComponent: convertLegacyRouteRef(scaffolderPlugin.routes.root),
+      viewTechDoc: convertLegacyRouteRef(techdocsPlugin.routes.docRoot),
+      createFromTemplate: convertLegacyRouteRef(scaffolderPlugin.routes.selectedTemplate),
+    });
+
+    bind(convertLegacyRouteRefs(apiDocsPlugin.externalRoutes), {
+      registerApi: convertLegacyRouteRef(catalogImportPlugin.routes.importPage),
+    });
+
+    bind(convertLegacyRouteRefs(scaffolderPlugin.externalRoutes), {
+      registerComponent: convertLegacyRouteRef(catalogImportPlugin.routes.importPage),
+      viewTechDoc: convertLegacyRouteRef(techdocsPlugin.routes.docRoot),
+    });
+
+    bind(convertLegacyRouteRefs(orgPlugin.externalRoutes), {
+      catalogIndex: convertLegacyRouteRef(catalogPlugin.routes.catalogIndex),
+    });
+  },
+});
+
+const AppComponent: React.FC = () => {
+  return backstageApp.createRoot();
+};
+
+export default AppComponent;

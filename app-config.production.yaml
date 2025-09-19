@@ -142,3 +142,9 @@ catalog:
       target: https://github.com/hmcts/template-product-infrastructure/blob/master/template.yaml
       rules:
         - allow: [ Template ]
+jenkins:
+  instances:
+    - name: cft
+      baseUrl: ${JENKINS_CFT_URL}
+      username: ${JENKINS_CFT_USERNAME}
+      apiKey: ${JENKINS_CFT_API_KEY}
