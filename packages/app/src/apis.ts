@@ -5,9 +5,7 @@ import {
 } from '@backstage/integration-react';
 
 import {
-  errorApiRef,
   configApiRef,
-  identityApiRef,
 } from '@backstage/core-plugin-api';
 
 import { ApiBlueprint } from '@backstage/frontend-plugin-api';
