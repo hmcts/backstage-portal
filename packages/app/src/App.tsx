@@ -27,6 +27,7 @@ import { Root } from './components/Root';
 import { HomepageCompositionRoot, VisitListener } from '@backstage/plugin-home';
 import { HomePage } from './components/home/HomePage';
 import jenkinsPlugin from '@backstage-community/plugin-jenkins/alpha';
+import { apis } from './apis';
 
 import {
   createFrontendModule,
@@ -135,7 +136,10 @@ const backstageApp = createApp({
 
     createFrontendModule({
       pluginId: 'app',
-      extensions: [signInPage],
+      extensions: [
+          ...apis,
+          signInPage,
+      ],
     }),
   ],
   // bind legacy plugin externalRoutes to each other
