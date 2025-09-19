@@ -26,6 +26,7 @@ import { searchPage } from './components/search/SearchPage';
 import { Root } from './components/Root';
 import { HomepageCompositionRoot } from '@backstage/plugin-home';
 import { HomePage } from './components/home/HomePage';
+import jenkinsPlugin from '@backstage-community/plugin-jenkins/alpha';
 
 import {
   createFrontendModule,
@@ -115,7 +116,6 @@ const routes = (
   </FlatRoutes>
 );
 
-// Keep legacy wrappers as a feature so the new createApp picks them up
 const legacyFeatures = convertLegacyAppRoot(
   <>
     <AlertDisplay />
@@ -130,6 +130,7 @@ const legacyFeatures = convertLegacyAppRoot(
 const backstageApp = createApp({
   features: [
     ...legacyFeatures,
+    jenkinsPlugin,
 
     createFrontendModule({
       pluginId: 'app',
