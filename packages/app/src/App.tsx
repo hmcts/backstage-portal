@@ -14,10 +14,11 @@ import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
 import {
-  TechDocsIndexPage,
   techdocsPlugin,
+  TechDocsIndexPage,
   TechDocsReaderPage,
 } from '@backstage/plugin-techdocs';
+import techDocsPlugin from '@backstage/plugin-techdocs/alpha';
 import { techDocsMermaidAddonModule } from 'backstage-plugin-techdocs-addon-mermaid';
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
@@ -135,7 +136,7 @@ const backstageApp = createApp({
     ...legacyFeatures,
     jenkinsPlugin,
 //     import techDocsPlugin from '@backstage/plugin-techdocs/alpha';
-    // techDocsPlugin,
+    techDocsPlugin,
     techDocsMermaidAddonModule,
     createFrontendModule({
       pluginId: 'app',
