@@ -18,6 +18,7 @@ import {
   techdocsPlugin,
   TechDocsReaderPage,
 } from '@backstage/plugin-techdocs';
+import { techDocsMermaidAddonModule } from 'backstage-plugin-techdocs-addon-mermaid';
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { UserSettingsPage } from '@backstage/plugin-user-settings';
@@ -133,7 +134,9 @@ const backstageApp = createApp({
   features: [
     ...legacyFeatures,
     jenkinsPlugin,
-
+//     import techDocsPlugin from '@backstage/plugin-techdocs/alpha';
+    // techDocsPlugin,
+    techDocsMermaidAddonModule,
     createFrontendModule({
       pluginId: 'app',
       extensions: [
