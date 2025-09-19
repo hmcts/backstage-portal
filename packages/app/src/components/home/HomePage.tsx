@@ -3,6 +3,8 @@ import {
     HomePageCompanyLogo,
     HomePageStarredEntities,
     TemplateBackstageLogo,
+    HomePageTopVisited,
+    HomePageRecentlyVisited,
 } from '@backstage/plugin-home';
 
 import { Content, Page } from '@backstage/core-components';
@@ -90,13 +92,18 @@ export const HomePage = () => {
                         </Grid>
                         <Grid container item xs={12}>
                             <Grid item xs={12} md={6}>
-                                <HomePageStarredEntities />
+                                <HomePageTopVisited />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <HomePageToolkit
-                                    title="Links"
-                                    tools={links}
-                                />
+                                <HomePageRecentlyVisited />
+                            </Grid>
+                        </Grid>
+                        <Grid container item xs={12}>
+                            <Grid item xs={7}>
+                                <HomePageStarredEntities />
+                            </Grid>
+                            <Grid item xs={5}>
+                                <HomePageToolkit title="Links" tools={links} />
                             </Grid>
                         </Grid>
                     </Grid>
