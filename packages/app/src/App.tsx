@@ -24,7 +24,7 @@ import { UserSettingsPage } from '@backstage/plugin-user-settings';
 import { entityPage } from './components/catalog/EntityPage';
 import { searchPage } from './components/search/SearchPage';
 import { Root } from './components/Root';
-import { HomepageCompositionRoot } from '@backstage/plugin-home';
+import { HomepageCompositionRoot, VisitListener } from '@backstage/plugin-home';
 import { HomePage } from './components/home/HomePage';
 import jenkinsPlugin from '@backstage-community/plugin-jenkins/alpha';
 
@@ -118,6 +118,7 @@ const routes = (
 
 const legacyFeatures = convertLegacyAppRoot(
   <>
+    <VisitListener />
     <AlertDisplay />
     <OAuthRequestDialog />
     <SignalsDisplay />
