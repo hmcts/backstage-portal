@@ -28,6 +28,11 @@ import {
   EntityRelationWarning,
 } from '@backstage/plugin-catalog';
 import {
+  EntityJenkinsContent,
+  EntityLatestJenkinsRunCard,
+  isJenkinsAvailable,
+} from '@backstage-community/plugin-jenkins';
+import {
   EntityUserProfileCard,
   EntityGroupProfileCard,
   EntityMembersListCard,
@@ -150,8 +155,23 @@ const serviceEntityPage = (
       {overviewContent}
     </EntityLayout.Route>
 
+    <EntitySwitch>
+        <EntitySwitch.Case if={isJenkinsAvailable}>
+          <Grid item sm={6}>
+            <EntityLatestJenkinsRunCard
+              branch="main,master"
+              variant="gridItem"
+            />
+          </Grid>
+        </EntitySwitch.Case>
+      </EntitySwitch>
+
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
-      {cicdContent}
+      <EntitySwitch>
+          <EntitySwitch.Case if={isJenkinsAvailable}>
+            <EntityJenkinsContent />
+          </EntitySwitch.Case>
+        </EntitySwitch>
     </EntityLayout.Route>
 
     <EntityLayout.Route

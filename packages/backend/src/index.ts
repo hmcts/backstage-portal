@@ -72,4 +72,7 @@ backend.add(import('@backstage/plugin-catalog-backend-module-msgraph'));
 backend.add(import('@backstage-community/plugin-adr-backend'));
 backend.add(import('@backstage-community/search-backend-module-adr'));
 
+// Jenkins
+backend.add(import('@backstage-community/plugin-jenkins-backend'));
+
 backend.start();
