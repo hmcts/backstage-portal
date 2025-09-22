@@ -50,9 +50,9 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 RUN apt-get install -y chromium
 
 RUN --mount=type=cache,target=/root/.cache/pip \
-pip3 install --break-system-packages mkdocs-techdocs-core markdown-inline-mermaid
-
+    pip3 install --break-system-packages mkdocs-techdocs-core markdown-inline-mermaid
 RUN npm install -g @mermaid-js/mermaid-cli
+
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 # From here on we use the least-privileged `node` user to run the backend.
