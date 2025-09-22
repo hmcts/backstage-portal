@@ -1,21 +1,15 @@
 import { Route } from 'react-router-dom';
 
-import { apiDocsPlugin, ApiExplorerPage } from '@backstage/plugin-api-docs';
+import { ApiExplorerPage } from '@backstage/plugin-api-docs';
 import {
   CatalogEntityPage,
   CatalogIndexPage,
-  catalogPlugin,
 } from '@backstage/plugin-catalog';
 import {
   CatalogImportPage,
-  catalogImportPlugin,
 } from '@backstage/plugin-catalog-import';
-import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
-import { orgPlugin } from '@backstage/plugin-org';
+import { ScaffolderPage } from '@backstage/plugin-scaffolder';
 import { SearchPage } from '@backstage/plugin-search';
-import {
-  techdocsPlugin,
-} from '@backstage/plugin-techdocs';
 import techDocsPlugin from '@backstage/plugin-techdocs/alpha';
 import { techDocsMermaidAddonModule } from 'backstage-plugin-techdocs-addon-mermaid';
 import { UserSettingsPage } from '@backstage/plugin-user-settings';
@@ -40,11 +34,7 @@ import {
 } from '@backstage/core-components';
 
 import { createApp } from '@backstage/frontend-defaults';
-import {
-  convertLegacyAppRoot,
-  convertLegacyRouteRef,
-  convertLegacyRouteRefs,
-} from '@backstage/core-compat-api';
+import {convertLegacyAppRoot } from '@backstage/core-compat-api';
 import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
@@ -74,6 +64,7 @@ const signInPage = SignInPageBlueprint.make({
   },
 });
 
+// legacy routes
 const routes = (
   <FlatRoutes>
     <Route path="/" element={<HomepageCompositionRoot />}>
@@ -135,27 +126,6 @@ const backstageApp = createApp({
       ],
     }),
   ],
-  // bind legacy plugin externalRoutes to each other
-  bindRoutes({ bind }) {
-//     bind(convertLegacyRouteRefs(catalogPlugin.externalRoutes), {
-//       createComponent: convertLegacyRouteRef(scaffolderPlugin.routes.root),
-//       viewTechDoc: convertLegacyRouteRef(techdocsPlugin.routes.docRoot),
-//       createFromTemplate: convertLegacyRouteRef(scaffolderPlugin.routes.selectedTemplate),
-//     });
-
-    bind(convertLegacyRouteRefs(apiDocsPlugin.externalRoutes), {
-      registerApi: convertLegacyRouteRef(catalogImportPlugin.routes.importPage),
-    });
-
-    bind(convertLegacyRouteRefs(scaffolderPlugin.externalRoutes), {
-      registerComponent: convertLegacyRouteRef(catalogImportPlugin.routes.importPage),
-      viewTechDoc: convertLegacyRouteRef(techdocsPlugin.routes.docRoot),
-    });
-
-    bind(convertLegacyRouteRefs(orgPlugin.externalRoutes), {
-      catalogIndex: convertLegacyRouteRef(catalogPlugin.routes.catalogIndex),
-    });
-  },
 });
 
 const AppComponent: React.FC = () => {
