@@ -15,13 +15,9 @@ import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
 import {
   techdocsPlugin,
-  TechDocsIndexPage,
-  TechDocsReaderPage,
 } from '@backstage/plugin-techdocs';
 import techDocsPlugin from '@backstage/plugin-techdocs/alpha';
 import { techDocsMermaidAddonModule } from 'backstage-plugin-techdocs-addon-mermaid';
-import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
-import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { UserSettingsPage } from '@backstage/plugin-user-settings';
 import { entityPage } from './components/catalog/EntityPage';
 import { searchPage } from './components/search/SearchPage';
@@ -89,13 +85,6 @@ const routes = (
       {entityPage}
     </Route>
 
-    <Route path="/docs" element={<TechDocsIndexPage />} />
-    <Route path="/docs/:namespace/:kind/:name/*" element={<TechDocsReaderPage />}>
-      <TechDocsAddons>
-        <ReportIssue />
-      </TechDocsAddons>
-    </Route>
-
     <Route path="/create" element={<ScaffolderPage />} />
     <Route path="/api-docs" element={<ApiExplorerPage />} />
 
@@ -148,11 +137,11 @@ const backstageApp = createApp({
   ],
   // bind legacy plugin externalRoutes to each other
   bindRoutes({ bind }) {
-    bind(convertLegacyRouteRefs(catalogPlugin.externalRoutes), {
-      createComponent: convertLegacyRouteRef(scaffolderPlugin.routes.root),
-      viewTechDoc: convertLegacyRouteRef(techdocsPlugin.routes.docRoot),
-      createFromTemplate: convertLegacyRouteRef(scaffolderPlugin.routes.selectedTemplate),
-    });
+//     bind(convertLegacyRouteRefs(catalogPlugin.externalRoutes), {
+//       createComponent: convertLegacyRouteRef(scaffolderPlugin.routes.root),
+//       viewTechDoc: convertLegacyRouteRef(techdocsPlugin.routes.docRoot),
+//       createFromTemplate: convertLegacyRouteRef(scaffolderPlugin.routes.selectedTemplate),
+//     });
 
     bind(convertLegacyRouteRefs(apiDocsPlugin.externalRoutes), {
       registerApi: convertLegacyRouteRef(catalogImportPlugin.routes.importPage),
