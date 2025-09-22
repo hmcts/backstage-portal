@@ -58,9 +58,6 @@ import { SignalsDisplay } from '@backstage/plugin-signals';
 import { microsoftAuthApiRef } from '@backstage/core-plugin-api';
 import { TechRadarPage } from '@backstage-community/plugin-tech-radar';
 import { techDocsReportIssueAddonModule } from '@backstage/plugin-techdocs-module-addons-contrib/alpha';
-// This is legacy plugin - remove if possible
-import { Mermaid } from "backstage-plugin-techdocs-addon-mermaid";
-
 
 const microsoftAuthProvider: SignInProviderConfig = {
   id: 'microsoft-auth-provider',
@@ -96,7 +93,6 @@ const routes = (
     <Route path="/docs/:namespace/:kind/:name/*" element={<TechDocsReaderPage />}>
       <TechDocsAddons>
         <ReportIssue />
-          <Mermaid config={{ theme: "forest", themeVariables: { lineColor: "#000000" } }} />
       </TechDocsAddons>
     </Route>
 

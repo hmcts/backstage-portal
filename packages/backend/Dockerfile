@@ -13,6 +13,7 @@
 # https://backstage.io/docs/deployment/docker#multi-stage-build
 
 FROM node:20-bookworm-slim
+# FROM python:3.11-slim-bullseye
 
 # Set Python interpreter for `node-gyp` to use
 ENV PYTHON=/usr/bin/python3
@@ -47,13 +48,16 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     rm -rf /var/lib/apt/lists/*
 
 # Install MkDocs TechDocs core plugin
-RUN apt-get install -y chromium
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      chromium-headless-shell \
+      # plus any deps
+    && rm -rf /var/lib/apt/lists/*
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-headless-shell
 
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip3 install --break-system-packages mkdocs-techdocs-core markdown-inline-mermaid
 RUN npm install -g @mermaid-js/mermaid-cli
-
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 # From here on we use the least-privileged `node` user to run the backend.
 USER node
