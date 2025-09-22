@@ -46,9 +46,17 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     build-essential && \
     rm -rf /var/lib/apt/lists/*
 
-# Install MkDocs TechDocs core plugin
+# Install MkDocs TechDocs core and mermaid plugins
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      chromium-headless-shell \
+      # plus any deps
+    && rm -rf /var/lib/apt/lists/*
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-headless-shell
+
 RUN --mount=type=cache,target=/root/.cache/pip \
-    pip3 install --break-system-packages mkdocs-techdocs-core
+    pip3 install --break-system-packages mkdocs-techdocs-core markdown-inline-mermaid
+RUN npm install -g @mermaid-js/mermaid-cli
 
 # From here on we use the least-privileged `node` user to run the backend.
 USER node
