@@ -13,7 +13,6 @@
 # https://backstage.io/docs/deployment/docker#multi-stage-build
 
 FROM node:20-bookworm-slim
-# FROM python:3.11-slim-bullseye
 
 # Set Python interpreter for `node-gyp` to use
 ENV PYTHON=/usr/bin/python3
@@ -47,7 +46,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     build-essential && \
     rm -rf /var/lib/apt/lists/*
 
-# Install MkDocs TechDocs core plugin
+# Install MkDocs TechDocs core and mermaid plugins
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       chromium-headless-shell \
