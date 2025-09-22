@@ -62,6 +62,7 @@ import {
   isKubernetesAvailable,
 } from '@backstage/plugin-kubernetes';
 import { EntityAdrContent, isAdrAvailable } from '@backstage-community/plugin-adr';
+import { EntityApiDocsSpectralLinterContent, isApiDocsSpectralLinterAvailable } from '@dweber019/backstage-plugin-api-docs-spectral-linter';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -294,6 +295,11 @@ const apiPage = (
         </Grid>
       </Grid>
     </EntityLayout.Route>
+
+    <EntityLayout.Route if={isApiDocsSpectralLinterAvailable} path="/linter" title="Linter">
+      <EntityApiDocsSpectralLinterContent />
+    </EntityLayout.Route>
+
   </EntityLayout>
 );
 
