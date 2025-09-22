@@ -153,3 +153,6 @@ kubernetes:
 permission:
   # setting this to `false` will disable permissions
   enabled: true
+
+spectralLinter:
+  openApiRulesetUrl: "https://raw.githubusercontent.com/baloise-incubator/spectral-ruleset/main/zalando.yml"
