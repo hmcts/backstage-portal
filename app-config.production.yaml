@@ -149,5 +149,6 @@ jenkins:
       username: ${JENKINS_CFT_USERNAME}
       apiKey: ${JENKINS_CFT_API_KEY}
 
+# Update this to point to a HMCTS Spectral ruleset once one is written.
 spectralLinter:
   openApiRulesetUrl: "https://raw.githubusercontent.com/baloise-incubator/spectral-ruleset/main/zalando.yml"
