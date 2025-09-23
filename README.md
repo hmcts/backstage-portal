@@ -129,6 +129,6 @@ A browser window should open and load `http://localhost:3000` for you to log int
 
 You can find examples of config to make use of this Backstage instance by looking at the [HMCTS Backstage examples repository](https://github.com/hmcts/backstage-hmcts-examples)
 
-## Try out the Live deployment
+## Try out the live deployment
 
 Try it out at https://backstage.hmcts.net
