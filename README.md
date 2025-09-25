@@ -12,6 +12,10 @@ These are both contained within this repository which itself is considered a [mo
 Each application is built using the `backstage-cli` which creates a scaffolded application that can then be customised, these are found under `packages` within this repository.
 More information can be found [here](https://github.com/Diabol/Backstage/blob/master/docs/getting-started/create-an-app.md).
 
+## Examples
+
+You can find examples of config to make use of this Backstage instance by looking at the [HMCTS Backstage examples repository](https://github.com/hmcts/backstage-hmcts-examples)
+
 ## Note about config files
 
 The new Backstage instance introduced a app-config.production.yaml file in the root of the repository which is used by both the frontend and backend packages.
@@ -102,19 +106,21 @@ integrations:
         - $include: github-app-backstage-hmcts-credentials.yaml
 ```
 
-Finally before you can start the application you need to setup environment variables for the Azure SSO login and Postgres connection:
+Finally before you can start the application you need to setup environment variables for the Azure SSO login and Postgres connection. It is recommended you create a `.env` file in the root of the project and store these values:
 
 ```sh
-export AUTH_MICROSOFT_CLIENT_ID="< Found in Key Vault dtscftptl>"
-export AUTH_MICROSOFT_CLIENT_SECRET="< Found in Key Vault dtscftptl>"
+export AUTH_MICROSOFT_CLIENT_ID="<Found in Key Vault dtscftptl>"
+export AUTH_MICROSOFT_CLIENT_SECRET="<Found in Key Vault dtscftptl>"
 export AUTH_MICROSOFT_TENANT_ID="<Tenant ID>"
-```
-
-```sh
 export POSTGRES_HOST=localhost
 export POSTGRES_PORT=5432
-export POSTGRES_USER=postgres
 export POSTGRES_PASSWORD=postgres
+export POSTGRES_USER=postgres
+export AUTH_GITHUB_CLIENT_ID=<Found in Key Vault dtscftptl>
+export AUTH_GITHUB_CLIENT_SECRET=<Found in Key Vault dtscftptl>
+export GITHUB_TOKEN=<Found in Key Vault dtscftptl>
+export JENKINS_USERNAME="test"
+export JENKINS_API_KEY="123"
 ```
 
 At this point you can now run the following to start the frontend and backend packages:
@@ -125,10 +131,10 @@ yarn start
 
 A browser window should open and load `http://localhost:3000` for you to log into Backstage.
 
-## Examples
+### Workaround to sign in locally through Microsoft
 
-You can find examples of config to make use of this Backstage instance by looking at the [HMCTS Backstage examples repository](https://github.com/hmcts/backstage-hmcts-examples)
+There appears to be a workaround that works to sign in locally. To do this, sign into either the production (https://backstage.hmcts.net/) or Sandbox (https://backstage-sandbox.hmcts.net/) instance of Backstage. Then switch back to your local instance and you should automatically be signed in once the page is refreshed. 
 
 ## Try out the live deployment
 
-Try it out at https://backstage.hmcts.net
+Try it out at https://backstage.hmcts.net or to test on Sandbox go to https://backstage-sandbox.hmcts.net/
