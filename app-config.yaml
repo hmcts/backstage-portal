@@ -85,7 +85,11 @@ auth:
             - resolver: emailLocalPartMatchingUserEntityName
 
 scaffolder:
-# see https://backstage.io/docs/features/software-templates/configuration for software template options
+  defaultAuthor:
+    name: Your Name
+    email: your.email@example.com
+    defaultCommitMessage: "Initial commit"
+
 
 catalog:
   providers:
@@ -135,6 +139,11 @@ catalog:
       target: ../../examples/org.yaml
       rules:
         - allow: [User, Group]
+
+    - type: file
+      target: ../../templates/**/template.yaml
+      rules:
+        - allow: [ Template ]
 
     ## Uncomment these lines to add more example data
     # - type: url
