@@ -142,6 +142,10 @@ catalog:
       target: https://github.com/hmcts/template-product-infrastructure/blob/master/template.yaml
       rules:
         - allow: [ Template ]
+    - type: file
+      target: ./templates/**/template.yaml
+      rules:
+        - allow: [ Template ]
 jenkins:
   instances:
     - name: cft
