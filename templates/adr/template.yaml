@@ -1,0 +1,70 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: adr
+  title: “Create ADR”
+  description: “Generate an Architecture Decision Record and commit it to a repo”
+spec:
+  owner: platform-team
+  input:
+    required:
+      - repoUrl
+      - branch
+      - adrTitle
+      - status
+      - context
+      - decision
+      - consequences
+    properties:
+      repoUrl:
+        type: string
+        title: “Repository URL (owner/repo)”
+        description: “GitHub repo where ADR should be added”
+      branch:
+        type: string
+        title: “Branch name”
+      adrTitle:
+        type: string
+        title: “ADR Title”
+      status:
+        type: string
+        title: “Status”
+        enum:
+          - proposed
+          - accepted
+          - deprecated
+      context:
+        type: string
+        title: “Context / Background”
+      decision:
+        type: string
+        title: “Decision”
+      consequences:
+        type: string
+        title: “Consequences”
+  steps:
+    - id: fetch-template
+      name: Fetch ADR template
+      action: fetch:template
+      input:
+        url: ./templates/adr
+        targetPath: ./adr
+
+    - id: render-adr
+      name: Render ADR file
+      action: core:copy
+      # or use fs:write or similar — you map inputs into the template file
+      input:
+        from: "./adr/adr_template.md"
+        to: "./adr/${{ parameters.adrTitle | slugify }}.md"
+        # note: you may need to use templating or custom logic to replace variables
+
+    - id: commit-adr
+      name: Commit ADR to repo
+      action: your:push-adr  # custom action you build
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        branch: ${{ parameters.branch }}
+        sourcePath: "./adr"
+        targetPath: "docs/adr"  # or wherever in the target repo
+        commitMessage: "Add ADR: ${{ parameters.adrTitle }}"
