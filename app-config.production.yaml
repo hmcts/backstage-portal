@@ -65,6 +65,12 @@ techdocs:
   publisher:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
 
+scaffolder:
+  defaultAuthor:
+    name: Your Name
+    email: your.email@example.com
+    defaultCommitMessage: "Initial commit"
+
 catalog:
   import:
     entityFilename: catalog-info.yaml
@@ -143,7 +149,7 @@ catalog:
       rules:
         - allow: [ Template ]
     - type: file
-      target: ../../templates/**/template.yaml
+      target: /templates/**/template.yaml
       rules:
         - allow: [ Template ]
 jenkins:

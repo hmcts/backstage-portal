@@ -2,69 +2,80 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: adr
-  title: “Create ADR”
-  description: “Generate an Architecture Decision Record and commit it to a repo”
+  title: Create ADR
+  description: Generate an Architecture Decision Record and commit it to a repo
 spec:
-  owner: platform-team
-  input:
-    required:
-      - repoUrl
-      - branch
-      - adrTitle
-      - status
-      - context
-      - decision
-      - consequences
-    properties:
-      repoUrl:
-        type: string
-        title: “Repository URL (owner/repo)”
-        description: “GitHub repo where ADR should be added”
-      branch:
-        type: string
-        title: “Branch name”
-      adrTitle:
-        type: string
-        title: “ADR Title”
-      status:
-        type: string
-        title: “Status”
-        enum:
-          - proposed
-          - accepted
-          - deprecated
-      context:
-        type: string
-        title: “Context / Background”
-      decision:
-        type: string
-        title: “Decision”
-      consequences:
-        type: string
-        title: “Consequences”
+  owner: center-of-excellence
+  type: adr
+  parameters:
+    - title: Fill in ADR details
+      required:
+            - adrTitle
+            - status
+            - context
+            - decision
+            - consequences
+      properties:
+        adrTitle:
+          type: string
+          title: ADR Title
+          ui:autofocus: true
+        status:
+          type: string
+          title: Status
+          enum:
+            - proposed
+            - accepted
+            - deprecated
+        context:
+          type: string
+          title: Context / Background
+          ui:options:
+            rows: 5
+        decision:
+          type: string
+          title: Decision
+          ui:options:
+            rows: 5
+        consequences:
+          type: string
+          title: Consequences
+          ui:options:
+            rows: 5
+
+    - title: Choose a location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        branch-name:
+          type: string
+          title: New github branch name
   steps:
-    - id: fetch-template
-      name: Fetch ADR template
+    - id: fetch-adr
+      name: Fetch ADR skeleton3
       action: fetch:template
       input:
-        url: ./templates/adr
+        url: .
         targetPath: ./adr
+        values:
+          adrTitle: ${{ parameters.adrTitle }}
+          status: ${{ parameters.status }}
+          context: ${{ parameters.context }}
+          decision: ${{ parameters.decision }}
+          consequences: ${{ parameters.consequences }}
 
-    - id: render-adr
-      name: Render ADR file
-      action: core:copy
-      # or use fs:write or similar — you map inputs into the template file
+    # This step publishes the contents of the working directory to GitHub.
+    - id: publish
+      name: Publish
+      action: publish:github
       input:
-        from: "./adr/adr_template.md"
-        to: "./adr/${{ parameters.adrTitle | slugify }}.md"
-        # note: you may need to use templating or custom logic to replace variables
-
-    - id: commit-adr
-      name: Commit ADR to repo
-      action: your:push-adr  # custom action you build
-      input:
+        description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
-        branch: ${{ parameters.branch }}
-        sourcePath: "./adr"
-        targetPath: "docs/adr"  # or wherever in the target repo
-        commitMessage: "Add ADR: ${{ parameters.adrTitle }}"
+        defaultBranch: ${{ parameters.branch-name }}
