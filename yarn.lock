@@ -1817,6 +1817,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage-community/plugin-adr-common@npm:^0.12.0":
+  version: 0.12.0
+  resolution: "@backstage-community/plugin-adr-common@npm:0.12.0"
+  dependencies:
+    "@backstage/catalog-model": "npm:^1.7.5"
+    "@backstage/integration": "npm:^1.18.0"
+    "@backstage/plugin-search-common": "npm:^1.2.19"
+    front-matter: "npm:^4.0.2"
+    luxon: "npm:^3.0.0"
+    marked: "npm:^12.0.0"
+  checksum: 10c0/478e26112a3cbd425f87b17e4d00816e49d1460a50b1ec42f930fd55c0561fa02044518c43233af6414786dc9b55fd1c1912131ccc3572eef2e92f4d78e51c4d
+  languageName: node
+  linkType: hard
+
 "@backstage-community/plugin-adr@npm:^0.14.0":
   version: 0.14.0
   resolution: "@backstage-community/plugin-adr@npm:0.14.0"
@@ -15952,7 +15966,7 @@ __metadata:
   dependencies:
     "@backstage-community/plugin-adr": "npm:^0.14.0"
     "@backstage-community/plugin-adr-backend": "npm:^0.13.0"
-    "@backstage-community/plugin-adr-common": "npm:^0.11.0"
+    "@backstage-community/plugin-adr-common": "npm:^0.12.0"
     "@backstage-community/plugin-jenkins": "npm:^0.23.0"
     "@backstage-community/plugin-tech-radar": "npm:^1.10.1"
     "@backstage/app-defaults": "npm:^1.6.5"
