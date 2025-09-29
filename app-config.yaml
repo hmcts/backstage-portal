@@ -85,11 +85,6 @@ auth:
             - resolver: emailLocalPartMatchingUserEntityName
 
 scaffolder:
-  defaultAuthor:
-    name: Your Name
-    email: your.email@example.com
-    defaultCommitMessage: "Initial commit"
-
 
 catalog:
   providers:
@@ -140,8 +135,8 @@ catalog:
       rules:
         - allow: [User, Group]
 
-    - type: file
-      target: ../../templates/**/template.yaml
+    - type: url
+      target: https://github.com/hmcts/backstage-hmcts-examples/blob/master/templates/adr/template.yaml
       rules:
         - allow: [ Template ]
 
