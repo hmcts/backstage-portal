@@ -58,7 +58,9 @@ const signInPage = SignInPageBlueprint.make({
       <SignInPage
         {...props}
         auto
-        providers={[microsoftAuthProvider]}
+        providers={[
+//          'guest',
+            microsoftAuthProvider]}
       />
     ),
   },

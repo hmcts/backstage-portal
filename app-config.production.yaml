@@ -142,6 +142,11 @@ catalog:
       target: https://github.com/hmcts/template-product-infrastructure/blob/master/template.yaml
       rules:
         - allow: [ Template ]
+    - type: url
+      target: https://github.com/hmcts/backstage-hmcts-examples/blob/master/templates/adr/template.yaml
+      rules:
+        - allow: [ Template ]
+
 jenkins:
   instances:
     - name: cft
