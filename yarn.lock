@@ -1831,21 +1831,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage-community/plugin-adr@npm:^0.14.0":
-  version: 0.14.0
-  resolution: "@backstage-community/plugin-adr@npm:0.14.0"
+"@backstage-community/plugin-adr@npm:^0.16.0":
+  version: 0.16.0
+  resolution: "@backstage-community/plugin-adr@npm:0.16.0"
   dependencies:
-    "@backstage-community/plugin-adr-common": "npm:^0.11.0"
+    "@backstage-community/plugin-adr-common": "npm:^0.12.0"
     "@backstage/catalog-model": "npm:^1.7.5"
-    "@backstage/core-compat-api": "npm:^0.5.1"
-    "@backstage/core-components": "npm:^0.17.5"
-    "@backstage/core-plugin-api": "npm:^1.10.9"
-    "@backstage/frontend-plugin-api": "npm:^0.11.0"
-    "@backstage/integration-react": "npm:^1.2.9"
-    "@backstage/plugin-auth-react": "npm:^0.1.18"
-    "@backstage/plugin-catalog-react": "npm:^1.20.1"
+    "@backstage/core-compat-api": "npm:^0.5.2"
+    "@backstage/core-components": "npm:^0.18.1"
+    "@backstage/core-plugin-api": "npm:^1.11.0"
+    "@backstage/frontend-plugin-api": "npm:^0.12.0"
+    "@backstage/integration-react": "npm:^1.2.10"
+    "@backstage/plugin-auth-react": "npm:^0.1.19"
+    "@backstage/plugin-catalog-react": "npm:^1.21.1"
     "@backstage/plugin-search-common": "npm:^1.2.19"
-    "@backstage/plugin-search-react": "npm:^1.9.3"
+    "@backstage/plugin-search-react": "npm:^1.9.4"
     "@material-ui/core": "npm:^4.12.2"
     "@material-ui/icons": "npm:^4.9.1"
     "@types/react": "npm:^16.13.1 || ^17.0.0 || ^18.0.0"
@@ -1855,7 +1855,7 @@ __metadata:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
     react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
     react-router-dom: 6.0.0-beta.0 || ^6.3.0
-  checksum: 10c0/825adbbbfca75bd03c609a72e71e9e231ce4b5b58e2ad5bf52c3da8ab29d3bf9f933617f20cb2717f7cc3ba91ada1298a6661849b48f9942e3a303b2c99e227c
+  checksum: 10c0/1d22a2f5326ee0b8ad4cfda4c424227868c39475f3051aa629e4bd867480ee20895724a447956b5de678a70bc9ed1d658ed8d97d45cb2eb1252257b00d11f132
   languageName: node
   linkType: hard
 
@@ -3439,6 +3439,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage/plugin-auth-react@npm:^0.1.19":
+  version: 0.1.19
+  resolution: "@backstage/plugin-auth-react@npm:0.1.19"
+  dependencies:
+    "@backstage/core-components": "npm:^0.18.0"
+    "@backstage/core-plugin-api": "npm:^1.11.0"
+    "@backstage/errors": "npm:^1.2.7"
+    "@material-ui/core": "npm:^4.9.13"
+    "@react-hookz/web": "npm:^24.0.0"
+  peerDependencies:
+    "@types/react": ^17.0.0 || ^18.0.0
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+    react-router-dom: ^6.3.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/4a90c56181b0efe2c2156350a8d0e75aecddb833add881b858473dd9a152116df8068007251f23967314c52dc276435363b52bce3f139d5be2a5374938c54c57
+  languageName: node
+  linkType: hard
+
 "@backstage/plugin-bitbucket-cloud-common@npm:^0.3.1":
   version: 0.3.1
   resolution: "@backstage/plugin-bitbucket-cloud-common@npm:0.3.1"
@@ -3727,7 +3748,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-catalog-react@npm:^1.19.1":
+"@backstage/plugin-catalog-react@npm:^1.19.1, @backstage/plugin-catalog-react@npm:^1.21.1":
   version: 1.21.1
   resolution: "@backstage/plugin-catalog-react@npm:1.21.1"
   dependencies:
@@ -4917,7 +4938,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/plugin-search-react@npm:^1.7.10":
+"@backstage/plugin-search-react@npm:^1.7.10, @backstage/plugin-search-react@npm:^1.9.4":
   version: 1.9.4
   resolution: "@backstage/plugin-search-react@npm:1.9.4"
   dependencies:
@@ -16063,7 +16084,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "app@workspace:packages/app"
   dependencies:
-    "@backstage-community/plugin-adr": "npm:^0.14.0"
+    "@backstage-community/plugin-adr": "npm:^0.16.0"
     "@backstage-community/plugin-adr-backend": "npm:^0.14.0"
     "@backstage-community/plugin-adr-common": "npm:^0.12.0"
     "@backstage-community/plugin-jenkins": "npm:^0.23.0"
