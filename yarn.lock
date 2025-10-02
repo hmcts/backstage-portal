@@ -1859,27 +1859,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage-community/plugin-jenkins-backend@npm:^0.18.0":
-  version: 0.18.0
-  resolution: "@backstage-community/plugin-jenkins-backend@npm:0.18.0"
+"@backstage-community/plugin-jenkins-backend@npm:^0.19.0":
+  version: 0.19.0
+  resolution: "@backstage-community/plugin-jenkins-backend@npm:0.19.0"
   dependencies:
-    "@backstage-community/plugin-jenkins-common": "npm:^0.10.0"
-    "@backstage/backend-defaults": "npm:^0.12.0"
-    "@backstage/backend-plugin-api": "npm:^1.4.2"
-    "@backstage/catalog-client": "npm:^1.11.0"
+    "@backstage-community/plugin-jenkins-common": "npm:^0.11.0"
+    "@backstage/backend-defaults": "npm:^0.12.1"
+    "@backstage/backend-plugin-api": "npm:^1.4.3"
+    "@backstage/catalog-client": "npm:^1.12.0"
     "@backstage/catalog-model": "npm:^1.7.5"
     "@backstage/config": "npm:^1.3.3"
     "@backstage/errors": "npm:^1.2.7"
-    "@backstage/plugin-catalog-node": "npm:^1.18.0"
+    "@backstage/plugin-catalog-node": "npm:^1.19.0"
     "@backstage/plugin-permission-common": "npm:^0.9.1"
-    "@backstage/plugin-permission-node": "npm:^0.10.3"
+    "@backstage/plugin-permission-node": "npm:^0.10.4"
     "@types/express": "npm:^4.17.6"
     express: "npm:^4.17.1"
     express-promise-router: "npm:^4.1.0"
     jenkins: "npm:^1.0.0"
     node-fetch: "npm:^2.6.7"
     yn: "npm:^4.0.0"
-  checksum: 10c0/ea47b5d86b7a80d7bbacd3ffedef2947717fc56d81f962c1a7c7f99771bde2a3d8888201322ece9273d46b0e2c5bf04385cb7eeb176cbd97511118842388ea8c
+  checksum: 10c0/1cd1f60328ce0953b4ea6186f88ce545ac5241a2882157da346dfca97d85b6326ddaa6cca34b883ec7fd50544a5c4fb93944069944d03c1a80532ada2fd44385
   languageName: node
   linkType: hard
 
@@ -1890,6 +1890,16 @@ __metadata:
     "@backstage/plugin-catalog-common": "npm:^1.1.5"
     "@backstage/plugin-permission-common": "npm:^0.9.1"
   checksum: 10c0/648e4ac3ce9a6cf9f4fe745136c4f8e2f0308686a6c93cd6dd7ee0f408f01adeba0584f878f17d6363e2b2c4752a7c3d976f6b661f8cfedc1849c96c988a58c0
+  languageName: node
+  linkType: hard
+
+"@backstage-community/plugin-jenkins-common@npm:^0.11.0":
+  version: 0.11.0
+  resolution: "@backstage-community/plugin-jenkins-common@npm:0.11.0"
+  dependencies:
+    "@backstage/plugin-catalog-common": "npm:^1.1.5"
+    "@backstage/plugin-permission-common": "npm:^0.9.1"
+  checksum: 10c0/7c223d99a400a788e7a31ae4389fecb8132f6324ec0c097504d24d534ca08ef4321de60b689ae672b6b87dbd8dcf2eff9bce9070fb5ac96a10d54034460a2888
   languageName: node
   linkType: hard
 
@@ -2004,6 +2014,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage/backend-app-api@npm:^1.2.7":
+  version: 1.2.7
+  resolution: "@backstage/backend-app-api@npm:1.2.7"
+  dependencies:
+    "@backstage/backend-plugin-api": "npm:^1.4.3"
+    "@backstage/config": "npm:^1.3.3"
+    "@backstage/errors": "npm:^1.2.7"
+  checksum: 10c0/0c74a7a91af6b07c726843282813dc65c1ef978e4f276d2c2c7047c164259d6dcb8cbdaa20a2e0c191f3161d16593b96ab5f52d8bf8336f450a5af99de46005e
+  languageName: node
+  linkType: hard
+
 "@backstage/backend-defaults@npm:^0.12.0":
   version: 0.12.0
   resolution: "@backstage/backend-defaults@npm:0.12.0"
@@ -2085,6 +2106,90 @@ __metadata:
     "@google-cloud/cloud-sql-connector":
       optional: true
   checksum: 10c0/e117c082586fe5dd9c2bd73f00ddf4b446fe4ddaa87278730372f1421b1f4bccd02a44110ae055a6af4cd1fabca5f4922f7c65ceec3d33734272036afdb1375d
+  languageName: node
+  linkType: hard
+
+"@backstage/backend-defaults@npm:^0.12.1":
+  version: 0.12.1
+  resolution: "@backstage/backend-defaults@npm:0.12.1"
+  dependencies:
+    "@aws-sdk/abort-controller": "npm:^3.347.0"
+    "@aws-sdk/client-codecommit": "npm:^3.350.0"
+    "@aws-sdk/client-s3": "npm:^3.350.0"
+    "@aws-sdk/credential-providers": "npm:^3.350.0"
+    "@aws-sdk/types": "npm:^3.347.0"
+    "@azure/storage-blob": "npm:^12.5.0"
+    "@backstage/backend-app-api": "npm:^1.2.7"
+    "@backstage/backend-dev-utils": "npm:^0.1.5"
+    "@backstage/backend-plugin-api": "npm:^1.4.3"
+    "@backstage/cli-node": "npm:^0.2.14"
+    "@backstage/config": "npm:^1.3.3"
+    "@backstage/config-loader": "npm:^1.10.3"
+    "@backstage/errors": "npm:^1.2.7"
+    "@backstage/integration": "npm:^1.18.0"
+    "@backstage/integration-aws-node": "npm:^0.1.17"
+    "@backstage/plugin-auth-node": "npm:^0.6.7"
+    "@backstage/plugin-events-node": "npm:^0.4.15"
+    "@backstage/plugin-permission-node": "npm:^0.10.4"
+    "@backstage/types": "npm:^1.2.2"
+    "@google-cloud/storage": "npm:^7.0.0"
+    "@keyv/memcache": "npm:^2.0.1"
+    "@keyv/redis": "npm:^4.0.1"
+    "@keyv/valkey": "npm:^1.0.1"
+    "@manypkg/get-packages": "npm:^1.1.3"
+    "@octokit/rest": "npm:^19.0.3"
+    "@opentelemetry/api": "npm:^1.9.0"
+    "@types/cors": "npm:^2.8.6"
+    "@types/express": "npm:^4.17.6"
+    archiver: "npm:^7.0.0"
+    base64-stream: "npm:^1.0.0"
+    better-sqlite3: "npm:^12.0.0"
+    compression: "npm:^1.7.4"
+    concat-stream: "npm:^2.0.0"
+    cookie: "npm:^0.7.0"
+    cors: "npm:^2.8.5"
+    cron: "npm:^3.0.0"
+    express: "npm:^4.17.1"
+    express-promise-router: "npm:^4.1.0"
+    express-rate-limit: "npm:^7.5.0"
+    fs-extra: "npm:^11.2.0"
+    git-url-parse: "npm:^15.0.0"
+    helmet: "npm:^6.0.0"
+    infinispan: "npm:^0.12.0"
+    is-glob: "npm:^4.0.3"
+    jose: "npm:^5.0.0"
+    keyv: "npm:^5.2.1"
+    knex: "npm:^3.0.0"
+    lodash: "npm:^4.17.21"
+    logform: "npm:^2.3.2"
+    luxon: "npm:^3.0.0"
+    minimatch: "npm:^9.0.0"
+    mysql2: "npm:^3.0.0"
+    node-fetch: "npm:^2.7.0"
+    node-forge: "npm:^1.3.1"
+    p-limit: "npm:^3.1.0"
+    path-to-regexp: "npm:^8.0.0"
+    pg: "npm:^8.11.3"
+    pg-connection-string: "npm:^2.3.0"
+    pg-format: "npm:^1.0.4"
+    rate-limit-redis: "npm:^4.2.0"
+    raw-body: "npm:^2.4.1"
+    selfsigned: "npm:^2.0.0"
+    tar: "npm:^6.1.12"
+    triple-beam: "npm:^1.4.1"
+    uuid: "npm:^11.0.0"
+    winston: "npm:^3.2.1"
+    winston-transport: "npm:^4.5.0"
+    yauzl: "npm:^3.0.0"
+    yn: "npm:^4.0.0"
+    zod: "npm:^3.22.4"
+    zod-to-json-schema: "npm:^3.20.4"
+  peerDependencies:
+    "@google-cloud/cloud-sql-connector": ^1.4.0
+  peerDependenciesMeta:
+    "@google-cloud/cloud-sql-connector":
+      optional: true
+  checksum: 10c0/b18fd646f2ef716967047ed80fda24ed386e22ea3fc2b1d6a1b7e3bef943c8dc4cbd32c92eea304b26203ea47a89a29b409d6488b7491cc19d24031c03211453
   languageName: node
   linkType: hard
 
@@ -2389,6 +2494,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backstage/config-loader@npm:^1.10.3":
+  version: 1.10.4
+  resolution: "@backstage/config-loader@npm:1.10.4"
+  dependencies:
+    "@backstage/cli-common": "npm:^0.1.15"
+    "@backstage/config": "npm:^1.3.4"
+    "@backstage/errors": "npm:^1.2.7"
+    "@backstage/types": "npm:^1.2.2"
+    "@types/json-schema": "npm:^7.0.6"
+    ajv: "npm:^8.10.0"
+    chokidar: "npm:^3.5.2"
+    fs-extra: "npm:^11.2.0"
+    json-schema: "npm:^0.4.0"
+    json-schema-merge-allof: "npm:^0.8.1"
+    json-schema-traverse: "npm:^1.0.0"
+    lodash: "npm:^4.17.21"
+    minimist: "npm:^1.2.5"
+    typescript-json-schema: "npm:^0.65.0"
+    yaml: "npm:^2.0.0"
+  checksum: 10c0/43b93ffacb198ca90fedcb2b3c0e84e8aa88f61fd63cc982273d9cd31bc0061eb7618f54f677ffade9c0d310af5fa2ebde4248619d39fa9db7bb81c204aca354
+  languageName: node
+  linkType: hard
+
 "@backstage/config@npm:^1.0.2, @backstage/config@npm:^1.0.3, @backstage/config@npm:^1.2.0, @backstage/config@npm:^1.3.3":
   version: 1.3.3
   resolution: "@backstage/config@npm:1.3.3"
@@ -2397,6 +2525,17 @@ __metadata:
     "@backstage/types": "npm:^1.2.1"
     ms: "npm:^2.1.3"
   checksum: 10c0/71f6bb34fad63a9801a71211b85b67f1e93b6d4f072a6a59da3692ff1e6f5b73973cc5969b3263d2afc67b04c22aeebe3a68fcd5fc5657933071c1a5987929f2
+  languageName: node
+  linkType: hard
+
+"@backstage/config@npm:^1.3.4":
+  version: 1.3.4
+  resolution: "@backstage/config@npm:1.3.4"
+  dependencies:
+    "@backstage/errors": "npm:^1.2.7"
+    "@backstage/types": "npm:^1.2.2"
+    ms: "npm:^2.1.3"
+  checksum: 10c0/e6b811fea6bd6043dfffe9b6f33affea4398f5fda2d604cc745c0dc7ad13cd9379c04dcce313992815dc05833895989aac7357980f220bee77f05cd6f10362ed
   languageName: node
   linkType: hard
 
@@ -3869,6 +4008,23 @@ __metadata:
     express: "npm:^4.17.1"
     uri-template: "npm:^2.0.0"
   checksum: 10c0/6754c7c848d03e7634ad67d6bebed416fd6f3980faffb3223b9cc8c773b4f61ea9e9db4083b63d8a7e20affbd2556e41da6e1dc404e87bb7490108db0f701c6c
+  languageName: node
+  linkType: hard
+
+"@backstage/plugin-events-node@npm:^0.4.15":
+  version: 0.4.15
+  resolution: "@backstage/plugin-events-node@npm:0.4.15"
+  dependencies:
+    "@backstage/backend-plugin-api": "npm:^1.4.3"
+    "@backstage/errors": "npm:^1.2.7"
+    "@backstage/types": "npm:^1.2.2"
+    "@types/content-type": "npm:^1.1.8"
+    "@types/express": "npm:^4.17.6"
+    content-type: "npm:^1.0.5"
+    cross-fetch: "npm:^4.0.0"
+    express: "npm:^4.17.1"
+    uri-template: "npm:^2.0.0"
+  checksum: 10c0/561cd37ca2e6825f02e8fb643b44a9fb203bbb39d0e3d9855cbdca84b2a375be3f776670e3f2f6ecf03b67ca457b13126460bae84ba5eecd5d66dc38c526e7b2
   languageName: node
   linkType: hard
 
@@ -16716,7 +16872,7 @@ __metadata:
   dependencies:
     "@backstage-community/plugin-adr-backend": "npm:^0.14.0"
     "@backstage-community/plugin-jenkins": "npm:^0.23.0"
-    "@backstage-community/plugin-jenkins-backend": "npm:^0.18.0"
+    "@backstage-community/plugin-jenkins-backend": "npm:^0.19.0"
     "@backstage-community/search-backend-module-adr": "npm:^0.11.0"
     "@backstage/backend-defaults": "npm:^0.12.0"
     "@backstage/backend-plugin-api": "npm:^1.4.2"
