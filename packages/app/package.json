@@ -14,7 +14,7 @@
     "lint": "backstage-cli package lint"
   },
   "dependencies": {
-    "@backstage-community/plugin-adr": "^0.14.0",
+    "@backstage-community/plugin-adr": "^0.17.0",
     "@backstage-community/plugin-adr-backend": "^0.14.0",
     "@backstage-community/plugin-adr-common": "^0.12.0",
     "@backstage-community/plugin-jenkins": "^0.23.0",
