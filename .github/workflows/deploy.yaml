@@ -2,15 +2,9 @@ on:
   push:
     branches:
       - master
-    paths:
-      - 'deploy/**'
-      - '.github/workflows/deploy.yml'
   pull_request:
     branches:
       - master
-    paths:
-      - 'deploy/**'
-      - '.github/workflows/deploy.yml'
 
 name: Publish
 
