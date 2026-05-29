@@ -11,12 +11,6 @@ import {
 import { ScaffolderPage } from '@backstage/plugin-scaffolder';
 import { SearchPage } from '@backstage/plugin-search';
 import techDocsPlugin from '@backstage/plugin-techdocs/alpha';
-import {
-  TechDocsIndexPage,
-  TechDocsReaderPage,
-} from '@backstage/plugin-techdocs';
-import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
-import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { techDocsMermaidAddonModule } from 'backstage-plugin-techdocs-addon-mermaid';
 import { UserSettingsPage } from '@backstage/plugin-user-settings';
 import { entityPage } from './components/catalog/EntityPage';
@@ -24,21 +18,22 @@ import { searchPage } from './components/search/SearchPage';
 import { Root } from './components/Root';
 import { HomepageCompositionRoot, VisitListener } from '@backstage/plugin-home';
 import { HomePage } from './components/home/HomePage';
+import jenkinsPlugin from '@backstage-community/plugin-jenkins/alpha';
 import { apis } from './apis';
 
 import {
   createFrontendModule,
+  SignInPageBlueprint,
 } from '@backstage/frontend-plugin-api';
-import { SignInPageBlueprint } from '@backstage/plugin-app-react';
 
 import {
   AlertDisplay,
   OAuthRequestDialog,
+  SignInProviderConfig,
   SignInPage,
 } from '@backstage/core-components';
 
 import { createApp } from '@backstage/frontend-defaults';
-import type { FrontendFeature } from '@backstage/frontend-plugin-api';
 import {convertLegacyAppRoot } from '@backstage/core-compat-api';
 import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
@@ -50,6 +45,13 @@ import { microsoftAuthApiRef } from '@backstage/core-plugin-api';
 import { TechRadarPage } from '@backstage-community/plugin-tech-radar';
 import { techDocsReportIssueAddonModule } from '@backstage/plugin-techdocs-module-addons-contrib/alpha';
 
+const microsoftAuthProvider: SignInProviderConfig = {
+  id: 'microsoft-auth-provider',
+  title: 'Microsoft',
+  message: 'Sign in using Microsoft',
+  apiRef: microsoftAuthApiRef,
+};
+
 const signInPage = SignInPageBlueprint.make({
   params: {
     loader: async () => (props) => (
@@ -57,13 +59,8 @@ const signInPage = SignInPageBlueprint.make({
         {...props}
         auto
         providers={[
-            {
-              id: 'microsoft-auth-provider',
-              title: 'Microsoft',
-              message: 'Sign in using Microsoft',
-              apiRef: microsoftAuthApiRef,
-            },
-        ]}
+//          'guest',
+            microsoftAuthProvider]}
       />
     ),
   },
@@ -83,12 +80,6 @@ const routes = (
 
     <Route path="/create" element={<ScaffolderPage />} />
     <Route path="/api-docs" element={<ApiExplorerPage />} />
-    <Route path="/docs" element={<TechDocsIndexPage />} />
-    <Route path="/docs/:namespace/:kind/:name/*" element={<TechDocsReaderPage />}>
-      <TechDocsAddons>
-        <ReportIssue />
-      </TechDocsAddons>
-    </Route>
 
     <Route
       path="/catalog-import"
@@ -124,10 +115,11 @@ const legacyFeatures = convertLegacyAppRoot(
 
 const backstageApp = createApp({
   features: [
-    ...(legacyFeatures as FrontendFeature[]),
-    techDocsPlugin as FrontendFeature,
-    techDocsMermaidAddonModule as FrontendFeature,
-    techDocsReportIssueAddonModule as FrontendFeature,
+    ...legacyFeatures,
+    jenkinsPlugin,
+    techDocsPlugin,
+    techDocsMermaidAddonModule,
+    techDocsReportIssueAddonModule,
     createFrontendModule({
       pluginId: 'app',
       extensions: [
