@@ -30,7 +30,7 @@ import {
 import {
     EntityJenkinsContent,
     isJenkinsAvailable,
-} from '@backstage/plugin-jenkins';
+} from '@backstage-community/plugin-jenkins';
 import {
   EntityUserProfileCard,
   EntityGroupProfileCard,
