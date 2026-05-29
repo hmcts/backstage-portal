@@ -24,7 +24,6 @@ import { searchPage } from './components/search/SearchPage';
 import { Root } from './components/Root';
 import { HomepageCompositionRoot, VisitListener } from '@backstage/plugin-home';
 import { HomePage } from './components/home/HomePage';
-import { jenkinsPlugin } from '@backstage-community/plugin-jenkins';
 import { apis } from './apis';
 
 import {
@@ -39,6 +38,7 @@ import {
 } from '@backstage/core-components';
 
 import { createApp } from '@backstage/frontend-defaults';
+import type { FrontendFeature } from '@backstage/frontend-plugin-api';
 import {convertLegacyAppRoot } from '@backstage/core-compat-api';
 import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
@@ -124,11 +124,10 @@ const legacyFeatures = convertLegacyAppRoot(
 
 const backstageApp = createApp({
   features: [
-    ...legacyFeatures,
-    jenkinsPlugin,
-    techDocsPlugin,
-    techDocsMermaidAddonModule,
-    techDocsReportIssueAddonModule,
+    ...(legacyFeatures as FrontendFeature[]),
+    techDocsPlugin as FrontendFeature,
+    techDocsMermaidAddonModule as FrontendFeature,
+    techDocsReportIssueAddonModule as FrontendFeature,
     createFrontendModule({
       pluginId: 'app',
       extensions: [
