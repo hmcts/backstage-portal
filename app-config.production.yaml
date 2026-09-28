@@ -134,11 +134,6 @@ catalog:
       target: https://github.com/hmcts/template-spring-boot/blob/master/template.yaml
       rules:
         - allow: [ Template ]
-    # temporarily adding to test a template update
-    - type: url
-      target: https://github.com/hmcts/template-spring-boot/blob/chore/use-sandbox/template.yaml
-      rules:
-        - allow: [ Template ]
     - type: url
       target: https://github.com/hmcts/template-java-client/blob/master/template.yaml
       rules:
