@@ -33,6 +33,7 @@ backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
 
 // catalog plugin
 backend.add(import('@backstage/plugin-catalog-backend'));
+backend.add(import('./plugins/catalog-health'));
 backend.add(import('@backstage/plugin-catalog-backend-module-github'));
 backend.add(import('@backstage/plugin-catalog-backend-module-github-org'));
 backend.add(
