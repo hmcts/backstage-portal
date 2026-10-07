@@ -20,7 +20,7 @@ export default createBackendModule({
           try {
             const credentials = await auth.getOwnServiceCredentials();
             await catalog.queryEntities(
-              { limit: 1, totalItems: 'exclude' },
+              { limit: 1 },
               { credentials },
             );
             response.status(200).json({ status: 'ok' });
