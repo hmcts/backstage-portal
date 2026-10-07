@@ -4,6 +4,8 @@ import {
 } from '@backstage/backend-plugin-api';
 import { catalogServiceRef } from '@backstage/plugin-catalog-node';
 
+// Expose a catalog-backed readiness check so Kubernetes stops routing traffic
+// to this pod when the catalog query fails, including during database outages.
 export default createBackendModule({
   pluginId: 'catalog',
   moduleId: 'health',
